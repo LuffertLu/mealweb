@@ -1,15 +1,17 @@
-from flask import Flask,render_template,request
-import recommend
-app=Flask(__name__)
-@app.route('/')
-def index():
-    return render_template('index.html')
+import os
+from app import create_app, db
+from app.models import User, Role
+from flask.ext.script import Manager, Shell
+from flask.ext.migrate import  MigrateCommand
 
-@app.route('/search/')
-def search():
-    n=request.args.get('user')
-    dic=recommend.recommend(n)
-    return render_template('search.html',Data=dic)
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+manager = Migrate(app, db)
+
+def make_shell_context():
+	return dict(app=app, db=db, User=User, Role=Role)
+	manager.add_command("shell",
+						Shell(make_context=make_shell_context))
+	manager.add_command('db','MigrateCommand')
 
 if __name__=="__main__":
-    app.run(debug=True)
+    manager.run(debug=True)
