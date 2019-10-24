@@ -1,4 +1,11 @@
 from . import db
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+
+engine = create_engine('mysql://root@localhost/study?charset=utf8')
+Base = declarative_base(engine)
+
+
 
 class Role(db.Model):
 	__tablename__ = 'roles'
@@ -8,7 +15,6 @@ class Role(db.Model):
 
 	def __repr__(self):
 		return '<Role %r>' % self.name
-
 
 
 
