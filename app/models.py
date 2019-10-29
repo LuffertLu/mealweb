@@ -1,6 +1,6 @@
 from . import db
 
-engine = create_engine('mysql://root@localhost/study?charset=utf8')
+engine = create_engine('mysql://admin:1qaz@localhost/meal_dev')
 Base = declarative_base(engine)
 Base.metadata.create_all()
 
@@ -50,3 +50,15 @@ class Course(Base):
 
 	def __repr__(self):
 		return '<Course: %r>' % self.name		
+
+
+
+class Plant(Base):
+	"""docstring for Plant"""
+	__tablename__ = 'plant'
+	id = Column(db.Integer, primary_key = True, ondelete = 'CASCADE')	
+	name = Column(String(64))
+	color = Column(String(64))
+
+	def __repr__(self):
+		return '<Plant: %r>' % self.name		

@@ -1,11 +1,12 @@
 #Internal dependency
 import os
-from app import create_app,db
-from app.models import User,Role
+from app import create_app, db
+
+#from app.models import User, Role
 
 #Flask related dependency
-from flask.ext.script import Manager,Shell
-from flask.ext.migrate import  MigrateCommand
+from flask_script import Manager, Shell
+from flask_migrate import MigrateCommand, Migrate
 
 #Database related dependency
 
@@ -27,5 +28,5 @@ def make_shell_context():
 
 
 if __name__=="__main__":
-    manager.run(debug=True, port=9000)
+    manager.run()
     

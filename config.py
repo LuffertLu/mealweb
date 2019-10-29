@@ -1,5 +1,5 @@
 #config file
-import ps
+import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
@@ -17,18 +17,21 @@ class Config:
 
 class DevelopmentConfig(Config):
 	DEBUG = True
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
+	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
+#	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 		
 
 
 class TestingConfig(Config):
 	TESTING = True
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
+	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
+#	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 
 		
 
 class ProductionConfig(Config):
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data.mysql')
+	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal"
+#	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data.mysql')
 
 
 

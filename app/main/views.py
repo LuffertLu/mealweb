@@ -1,9 +1,9 @@
 #Internal dependency
-from . import main
-from .. import db
-from ..models import User
-from ..email import send_email
+#from .. import db
+#from ..models import User
+#from ..email import send_email
 from .forms import NameForm
+from . import main
 
 #Flask related dependency
 from flask import Blueprint
@@ -12,8 +12,7 @@ from flask import render_template,session,redirect,url_for,current_app
 #Database related dependency
 
 
-#already in init file check if needed
-#main = Blueprint('main', __name__, url_prefix='')
+
 
 @main.route('/')
 def index():
@@ -23,7 +22,7 @@ def index():
 def contact():
     n=request.args.get('user')
     dic=recommend.recommend(n)
-    return render_template('contact.html',Data=dic)
+    return render_template('contact.html')
 
 @main.route('/login/')
 def login():
@@ -33,9 +32,9 @@ def login():
 def register():
     return render_template('register.html')
 
-@main.route('/forgot-password/')
-def forgot-password():
-    return render_template('forgot-password.html')
+@main.route('/forgot_password/')
+def forgot_password():
+    return render_template('forgot_password.html')
 
 @main.route('/sidebar/')
 def sidebar():
