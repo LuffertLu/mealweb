@@ -6,4 +6,5 @@ from flask import Blueprint
 main = Blueprint('main', __name__, url_prefix='')
 
 #Internal dependency
-from . import views, errors, forms
+#not used in this file
+#from . import views, errors, forms

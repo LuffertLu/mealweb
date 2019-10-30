@@ -1,64 +1,53 @@
+#Internal dependency
 from . import db
 
-engine = create_engine('mysql://admin:1qaz@localhost/meal_dev')
-Base = declarative_base(engine)
-Base.metadata.create_all()
+#Flask related dependency
+
+
+#Database related dependency
+#from sqlalchemy import create_engine
+from sqlalchemy import Column, Integer, String, ForeignKey
+#from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, backref
+
+
+
+
+#engine = db.create_engine('mysql://admin:1qaz@localhost/meal_dev')
+#Base = db.declarative_base(engine)
+#Base.metadata.create_all()
 
 
 class Role(db.Model):
 	__tablename__ = 'role'
-	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(64), unique = True, nullable = False)
-	user = db.relationship('User', backref = 'role', lazy = 'dynamic')
+	id = Column(Integer, primary_key = True)
+	rolename = Column(String(64), unique = True, nullable = False)
+	user = relationship('User', backref = 'role', lazy = 'dynamic')
 
 	def __repr__(self):
-		return '<Role: %r>' % self.name
+		return '<Role: %r>' % self.rolename
+
 
 
 
 class User(db.Model):
-	"""docstring for User"""
 	__tablename__ = 'user'
-	id = db.Column(db.Integer, primary_key = True)
-	username = db.Column(db.String(64), unique = True, index = True, nullable = False)
+	id = Column(Integer, primary_key = True)
+	username = Column(String(64), unique = True, index = True, nullable = False)
 	email = Column(String(64), unique = True)
-	role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+	role_id = Column(Integer, ForeignKey('role.id'))
 
 	def __repr__(self):
 		return '<User: %r>' % self.username
 
 
 
-class Student(Base):
-	"""docstring for Student"""
-	__tablename__ = 'student'
-	id = Column(Integer, primary_key = True)
-	name = Column(String(64), unique = True, nullable = False)
-	email = Column(String(64), unique = True)
-	
-	def __repr__(self):
-		return '<Student: %r>' % self.name
 
-
-
-class Course(Base):
-	"""docstring for Course"""
-	__tablename__ = 'course'
-	name = Column(String(64))
-	student_id = Column(Integer, ForeignKey('student.id', ondelete = 'CASCADE'))	
-	student = relationship('Student', backref = backref('course', cascade = 'all, delete-orphan'))
-
-	def __repr__(self):
-		return '<Course: %r>' % self.name		
-
-
-
-class Plant(Base):
-	"""docstring for Plant"""
+class Plant(db.Model):
 	__tablename__ = 'plant'
-	id = Column(db.Integer, primary_key = True, ondelete = 'CASCADE')	
-	name = Column(String(64))
+	id = Column(Integer, primary_key = True)	
+	plantname = Column(String(64))
 	color = Column(String(64))
 
 	def __repr__(self):
-		return '<Plant: %r>' % self.name		
+		return '<Plant: %r>' % self.plantname		
