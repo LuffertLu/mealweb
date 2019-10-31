@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# encoding: utf-8
 #Internal dependency
 import os
 from app import create_app, db
@@ -20,7 +22,7 @@ app = create_app('development')
 manager = Manager(app)
 migrate = Migrate(app, db)
 manager.add_command('db',MigrateCommand)
-
+app.secret_key = os.urandom(24)
 
 @app.shell_context_processor
 def make_shell_context():

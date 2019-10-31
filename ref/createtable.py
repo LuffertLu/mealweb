@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# encoding: utf-8
 #this is the script to create related table.
 import MySQLdb
 db=MySQLdb.connect("localhost", "root", "", "recommend")

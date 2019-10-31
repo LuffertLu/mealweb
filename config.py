@@ -1,6 +1,12 @@
+#!/usr/bin/env python3
+# encoding: utf-8
 #config file
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+
 
 class Config:
 	MAIL_SERVER = 'smtp.163.com'
@@ -22,6 +28,7 @@ class DevelopmentConfig(Config):
 		
 
 
+
 class TestingConfig(Config):
 	TESTING = True
 	host = '0.0.0.0'
@@ -31,11 +38,13 @@ class TestingConfig(Config):
 
 		
 
+
 class ProductionConfig(Config):
 	host = '0.0.0.0'
 	port = 80
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal"
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data.mysql')
+
 
 
 
@@ -47,3 +56,5 @@ config = {
          }
 
 
+
+SECRET_KEY = 'secret'

@@ -4,6 +4,7 @@ from ..models import Role, User
 #from ..email import send_email
 from .forms import NameForm
 from . import main
+from . import auth
 
 #Flask related dependency
 from flask import Blueprint
@@ -25,9 +26,12 @@ def contact():
     dic=recommend.recommend(n)
     return render_template('contact.html')
 
-@main.route('/login/')
+@auth.route('/login/')
 def login():
-    return render_template('login.html')
+    return render_template('auth/login.html')
+# 这里需要注意，这个模板文件需要保存在auth这个文件夹中
+# 但是这个文件夹又需要保存在app/templates中
+# flask认为模板的路径是相对于程序模板文件夹而言的。
 
 @main.route('/register/')
 def register():
