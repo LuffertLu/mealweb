@@ -6,7 +6,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
-
+SECRET_KEY = 'secret'
 
 class Config:
 	MAIL_SERVER = 'smtp.163.com'
@@ -14,6 +14,7 @@ class Config:
 	MAIL_USE_TLS = True
 	MAIL_USERNAME = os.environ.get('MAIL_USERNAME') #it is none at the moment. to be check
 	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') #it is none at the moment, to be check
+
 	@staticmethod
 	def init_app(app):
 		pass
@@ -57,4 +58,3 @@ config = {
 
 
 
-SECRET_KEY = 'secret'

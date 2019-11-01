@@ -43,5 +43,16 @@ def logout():
     flash('用户登出')
     return redirect(url_for('main.index'))
 
-
+@auth.route('/register', methods = ['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email = form.email.data, 
+                username = form.username.data,
+                password = form.password.data)#password is used for add user but not password hash, need to confirm later
+        db.session.add(user)
+        db.session.commit()
+        flash('Your Account has been registered')
+        return redirect(url_for('auth.login'))
+    return render_template('auth.register.html', form = form)
 

@@ -7,41 +7,38 @@
 <div class="page-header">
     <h1>登录</h1>
 </div>
-<body class="bg-gradient-primary">
 
-  <div class="container">
+<div class="container">
 
     <!-- Outer Row -->
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
 
-      <div class="col-xl-10 col-lg-12 col-md-9">
+    <div class="col-xl-10 col-lg-12 col-md-9">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card o-hidden border-0 shadow-lg my-5">
           
-          <div class="card-body p-0">
+        <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             
-            <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-              <div class="col-lg-6">
-                {{ wtf.quick_form(form) }}
-              </div>
-              <hr>
-              <a href="https://wx.qq.com" class="btn btn-google btn-user btn-block">
-                <i class="fab fa-google-g fa-fw"></i> 用微信账号登录
-              </a>
-              <a href="https://weibo.com" class="btn btn-facebook btn-user btn-block">
-                <i class="fab fa-facebook-f fa-fw"></i> 用微博账号登录
-              </a>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">忘记密码?</a>
-              </div>
-              <div class="text-center">
-                <a class="small" href="register.html">创建账户!</a>
-              </div>
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-6">
+              {{ wtf.quick_form(form) }}
             </div>
-
+            <hr>
+            <a href="https://wx.qq.com" class="btn btn-google btn-user btn-block">
+              <i class="fab fa-google-g fa-fw"></i> 用微信账号登录
+            </a>
+            <a href="https://weibo.com" class="btn btn-facebook btn-user btn-block">
+              <i class="fab fa-facebook-f fa-fw"></i> 用微博账号登录
+            </a>
+            <hr>
+            <div class="text-center">
+              <a class="small" href="{{url_for('auth.forgot-password')}}">忘记密码?</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{url_for('auth.register')}}">创建账户!</a>
+            </div>
           </div>
 
         </div>
@@ -50,19 +47,10 @@
 
     </div>
 
-  </div> 
+  </div>
 
-
-  <!-- Bootstrap core JavaScript
-  <script src="../../static/js/core.js"></script>-->
-
-  <!-- Core plugin JavaScript
-  <script src="../../static/js/main-js.js"></script>-->
-
-  <!-- Custom scripts for all pages
-  <script src="../../static/vendor/js/sb-admin-2.min.js"></script>-->
-
-</body>       
+</div> 
+      
 {% endblock %}
 
 

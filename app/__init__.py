@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 #Internal dependency
-from config import config
+from config import config 
+from config import Config as mail_config
 from .main import main as main_blueprint
 from .auth import auth as auth_blueprint
 
