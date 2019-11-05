@@ -9,13 +9,21 @@ from . import auth
 
 #Flask related dependency
 from flask import Blueprint
-from flask import render_template,session,redirect,url_for,current_app
+from flask import render_template,session,redirect,url_for,current_app, current_user
 
 #Database related dependency
 
 
 
+#decoration
+@auth.before_app_request
+def before_request():
+	if current_user.is_authenticated and not current_user.confirmed and request.endpoint and request.blueprint != 'auth' and request.endpoint != 'static':
+		return redirect(url_for('auth.unconfimred'))
 
+
+
+#Route table
 @auth.route('/login/', methods = ['GET', 'POST'])
 def login():
 	form = LoginForm()
@@ -52,7 +60,38 @@ def register():
                 password = form.password.data)#password is used for add user but not password hash, need to confirm later
         db.session.add(user)
         db.session.commit()
-        flash('Your Account has been registered')
-        return redirect(url_for('auth.login'))
-    return render_template('auth.register.html', form = form)
+        	# 下面我们要生成令牌然后发送邮件
+		token = user.generate_confirmation()
+		send_email(user.email, 'Confirmation of Your New Account', 'auth/email/confirm.html', user = user, token = token)
+		flash('we have sent a confirmation email to you, please confirm it!!!')
+		return redirect(url_for('main.index'))
+        
+        #flash('Your Account has been registered')
+        #return redirect(url_for('auth.login'))
+    return render_template('auth/register.html', form = form)
 
+@auth.route('/confirm/<token>/')
+@login_required # 这个修饰器会保护这个路由，只有用户打开链接登陆后，才可以执行下面的视图函数
+def confirm(token):
+	if current_user.confirmed:
+		return redirect(url_for('main.index'))
+	if current_user.confirm(token):
+		flash('you have confirmed your acount and you can login now!')
+        return redirect(url_for('auth.login'))
+	else:
+		flash('The confirmation link is invalid or it has expired')
+	return redirect(url_for('main.index'))
+
+@auth.unconfimred('/unconfimred/')
+def unconfimred():
+	if current_user.is_anonymous or current_user.confirmed:
+		return redirect(url_for('main.index'))
+	return render_template('auth/unconfimred.html')
+
+@auth.confirm('/confirm/')
+@login_required
+def resend_confirmation():
+	token = current_user.generate_confirmation_token()
+	send_email(current_user.email, 'Confrim Your Account', 'auth/email/confirm.html', user = current_user, token = token)
+	flash('A New confirmaiton email has been sent to your mailbox.')
+	return redirect(url_for('main.index'))
