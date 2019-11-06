@@ -1,8 +1,7 @@
-#Internal dependency
+#!/usr/bin/env python3
+# encoding: utf-8
 from . import main
 
-#Flask related dependency
-from flask import Flask,render_template,request
 
 @main.errorhandler(404)
 def page_not_found(exc):

@@ -3,8 +3,6 @@ from flask import Blueprint
 
 #Database related dependency
 
-main = Blueprint('main', __name__, url_prefix='')
+main = Blueprint('main', __name__)
 
-#Internal dependency
-#not used in this file
-#from . import views, errors, forms
+from . import views, forms, errors

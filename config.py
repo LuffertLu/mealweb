@@ -6,7 +6,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
-SECRET_KEY = 'secret'
+#SECRET_KEY = 'secret'
 
 class Config:
 	MAIL_SERVER = 'smtp.163.com'
@@ -25,6 +25,7 @@ class Config:
 class DevelopmentConfig(Config):
 	DEBUG = True
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
+	SQLALCHEMY_TRACK_MODIFICATIONS = False
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 		
 
@@ -35,6 +36,7 @@ class TestingConfig(Config):
 	host = '0.0.0.0'
 	port = 80
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 
 		
@@ -44,6 +46,7 @@ class ProductionConfig(Config):
 	host = '0.0.0.0'
 	port = 80
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal"
+	SQLALCHEMY_TRACK_MODIFICATIONS = True
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data.mysql')
 
 

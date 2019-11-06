@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 # encoding: utf-8
-#Internal dependency
-from .. import db
-from ..models import Role, User
-#from ..email import send_email
-from .forms import NameForm
 from . import auth
-
-#Flask related dependency
-from flask import Blueprint
-from flask import render_template,session,redirect,url_for,current_app, current_user
-
-#Database related dependency
-
+from flask import render_template,redirect,url_for
+from .forms import LoginForm, RegistrationForm
+from ..models import Role, User
+from .. import db
+from ..email import send_email
+from flask_login import login_required, current_user
 
 
 #decoration
@@ -26,9 +20,9 @@ def before_request():
 #Route table
 @auth.route('/login/', methods = ['GET', 'POST'])
 def login():
-	form = LoginForm()
-	# 创建一个对象
-    # GET请求时，视图函数直接渲染模板显示表单
+    form = LoginForm()
+    # 创建一个对象    
+    # GET请求时，视图函数直接渲染模板显示表单    
     # POST请求时，拓展的下面这个函数会验证表单数据
     if form.validate_on_submit():
     	user = User.query.filter_by(email = form.email.data).first()
@@ -60,12 +54,12 @@ def register():
                 password = form.password.data)#password is used for add user but not password hash, need to confirm later
         db.session.add(user)
         db.session.commit()
-        	# 下面我们要生成令牌然后发送邮件
-		token = user.generate_confirmation()
-		send_email(user.email, 'Confirmation of Your New Account', 'auth/email/confirm.html', user = user, token = token)
-		flash('we have sent a confirmation email to you, please confirm it!!!')
-		return redirect(url_for('main.index'))
-        
+        # 下面我们要生成令牌然后发送邮件
+        token = user.generate_confirmation()
+        send_email(user.email, 'Confirmation of Your New Account', 
+                    'auth/email/confirm.html', user = user, token = token)
+        flash('we have sent a confirmation email to you, please confirm it!!!')
+        return redirect(url_for('main.index'))        
         #flash('Your Account has been registered')
         #return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form = form)
@@ -73,22 +67,22 @@ def register():
 @auth.route('/confirm/<token>/')
 @login_required # 这个修饰器会保护这个路由，只有用户打开链接登陆后，才可以执行下面的视图函数
 def confirm(token):
-	if current_user.confirmed:
-		return redirect(url_for('main.index'))
-	if current_user.confirm(token):
-		flash('you have confirmed your acount and you can login now!')
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash('you have confirmed your acount and you can login now!')
         return redirect(url_for('auth.login'))
-	else:
-		flash('The confirmation link is invalid or it has expired')
-	return redirect(url_for('main.index'))
+    else:
+        flash('The confirmation link is invalid or it has expired')
+    return redirect(url_for('main.index'))
 
-@auth.unconfimred('/unconfimred/')
-def unconfimred():
+@auth.route('/unconfirmed/')
+def unconfirmed():
 	if current_user.is_anonymous or current_user.confirmed:
 		return redirect(url_for('main.index'))
-	return render_template('auth/unconfimred.html')
+	return render_template('auth/unconfirmed.html')
 
-@auth.confirm('/confirm/')
+@auth.route('/confirm/')
 @login_required
 def resend_confirmation():
 	token = current_user.generate_confirmation_token()

@@ -2,18 +2,22 @@
 # encoding: utf-8
 #Internal dependency
 from . import db
-from .. import config
 
-#Flask related dependency
-from werkzeug.security import generate_password_hash, check_password_hash
+#Model definition dependency
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+
+from sqlalchemy.orm import relationship, backref
+
 from flask_login import UserMixin
+
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from itsdangerous import TimedJSONWebSignatureSerializer
+
 from flask import current_app
 
-#Database related dependency
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
-from sqlalchemy import session, commit
-from sqlalchemy.orm import relationship, backref
-from itsdangerous import TimedJSONWebSignatureSerializer
+from . import login_manager
+
 
 
 
@@ -58,8 +62,8 @@ class User(UserMixin, db.Model):
 		if data.get('confirm') != self.id:
 			return False
 		self.confirmed = True
-		session.add(self)
-		session.commit()
+		db.session.add(self)
+		db.session.commit()
 		return True
 
 	def __repr__(self):
@@ -79,6 +83,6 @@ class Plant(db.Model):
 
 
 
-@login_mamager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
