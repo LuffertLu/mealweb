@@ -2,26 +2,35 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-    {% block head %}
+  {% block head %}
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    {% block style %}
     <!-- Custom styles for this template -->
-    <link href="css/main-css.css" rel="stylesheet">
+    <link href="/static/css/main-css.css" rel="stylesheet">
+    {% endblock%}
+
     <title>{% block title %}Base page{% endblock %}</title>
-    {% endblock %}
+
+  {% endblock %}
 </head>
 <body>
 {% block body %}
-<div id="content">{% block content %}{% endblock %}</div>
-<div id="footer">
-    {% block  footer %}
+  <div id="content">{% block content %}{% endblock %}</div>
+
+  <div id="footer">
+  {% block footer %}
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    {% block JavaScript %}
     <!-- Custom JavaScript for this template -->
-    <script src="js/main-js.js"></script>
+    <script src="/static/js/main-js.js"></script>
     {% endblock %}
-</div>
+  {% endblock %}
+  </div>
+
 {% endblock %}
 </body>
 </html>

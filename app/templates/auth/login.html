@@ -2,7 +2,14 @@
 
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block style %}
+<!-- Custom styles for this template -->
+<link href="/static/auth/auth.css" rel="stylesheet">
+{% endblock%}
+
 {% block title %}登录/注册{% endblock %}
+
+
 
 {% block content %}
 <div class="page-header">
@@ -51,4 +58,7 @@
   </div>
 
 </div> 
+{% endblock %}
+{% block JavaScript %}
+<script src="/static/auth/auth.js"></script>
 {% endblock %}
