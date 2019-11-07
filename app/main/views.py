@@ -26,9 +26,6 @@ def contact():
     dic=recommend.recommend(n)
     return render_template('contact.html')
 
-@main.route('/forgot_password/')
-def forgot_password():
-    return render_template('forgot_password.html')
 
 @main.route('/sidebar/')
 def sidebar():
