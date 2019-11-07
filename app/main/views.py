@@ -34,6 +34,10 @@ def forgot_password():
 def sidebar():
     return render_template('sidebar.html')
 
+@main.route('/about/')
+def about():
+    return render_template('about.html')
+
 """
 #authenticatioin route
 from .. import auth
