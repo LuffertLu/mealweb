@@ -26,13 +26,14 @@ def contact():
     dic=recommend.recommend(n)
     return render_template('contact.html')
 
-@main.route('/forgot_password/')
-def forgot_password():
-    return render_template('forgot_password.html')
 
 @main.route('/sidebar/')
 def sidebar():
     return render_template('sidebar.html')
+
+@main.route('/about/')
+def about():
+    return render_template('about.html')
 
 """
 #authenticatioin route

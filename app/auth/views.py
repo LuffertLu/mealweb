@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 from . import auth
+from flask_bootstrap import Bootstrap
 from flask import render_template,redirect,url_for
 from .forms import LoginForm, RegistrationForm
 from ..models import Role, User
 from .. import db
+from .. import bootstrap
 from ..email import send_email
 from flask_login import login_required, current_user
 
@@ -13,7 +15,7 @@ from flask_login import login_required, current_user
 @auth.before_app_request
 def before_request():
 	if current_user.is_authenticated and not current_user.confirmed and request.endpoint and request.blueprint != 'auth' and request.endpoint != 'static':
-		return redirect(url_for('auth.unconfimred'))
+		return redirect(url_for('auth.unconfirmed'))
 
 
 
@@ -89,3 +91,7 @@ def resend_confirmation():
 	send_email(current_user.email, 'Confrim Your Account', 'auth/email/confirm.html', user = current_user, token = token)
 	flash('A New confirmaiton email has been sent to your mailbox.')
 	return redirect(url_for('main.index'))
+
+@auth.route('/forgot_password/')
+def forgot_password():
+    return render_template('forgot_password.html')
