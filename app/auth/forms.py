@@ -3,8 +3,8 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField, PasswordField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, Regexp
-
+from wtforms.validators import DataRequired, Length, Email, Regexp, ValidationError, EqualTo
+from ..models import User, Role
 
 
 
@@ -24,18 +24,16 @@ class RegistrationForm(FlaskForm):
 	username = StringField('Username', validators = [DataRequired(), Length(1, 64), 
 							Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 
 							'Username mush have only letters, numbers, dots or underscores')])
-	password = PasswordField('Confirm password', validators = [DataRequired()])
+	password = PasswordField('Password', validators = [DataRequired(), EqualTo('password_c', message = 'Passwords must be same!')])
+	password_c = PasswordField('Confirm password', validators = [DataRequired()])
+
 	submit = SubmitField('Register Account')
 
 	def validate_email(self, field):
-		if User.query.filter_fy(email = field.data).first():
+		if User.query.filter_by(email = field.data).first():
 			raise ValidationError('Email already regisered.')
 
 	def validate_username(self, field):
-		if User.query.filter_fy(username = field.data).first():
+		if User.query.filter_by(username = field.data).first():
 			raise ValidationError('Username already in use.')
-		
-	def __init__(self, arg):
-		super(RegistrationForm, self).__init__()
-		self.arg = arg
-		
+

@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 #config file
-
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-
-#SECRET_KEY = 'secret'
-
 class Config:
-	MAIL_SERVER = 'smtp.163.com'
+	MAIL_SERVER = 'smtp.126.com'
 	MAIL_PORT = 587
 	MAIL_USE_TLS = True
-	MAIL_USERNAME = os.environ.get('MAIL_USERNAME') #it is none at the moment. to be check
-	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') #it is none at the moment, to be check
+	#MAIL_USERNAME = os.environ.get('MAIL_USERNAME') it is none at the moment. to be check
+	MAIL_USERNAME = 'appdevelopment@126.com'
+	#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') it is none at the moment, to be check
+	MAIL_PASSWORD = 'bgcxhyvc'
+	
+	FLASK_ADMIN = 'appdevelopment@126.com'
+	FLASK_POSTS_PER_PAGE = 15
+	FLASK_MAIL_SUBJECT_PREFIX = 'Meal'
+	FLASK_MAIL_SENDER = 'kaifa<appdevelopment@126.com>'
+
+	SECRET_KEY = 'meal123'
 
 	@staticmethod
 	def init_app(app):
@@ -58,6 +63,3 @@ config = {
          'production' : ProductionConfig,
          'default' : DevelopmentConfig
          }
-
-
-

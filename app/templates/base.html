@@ -4,26 +4,26 @@
 	<meta charset="utf-8">
   {% block head %}
     <!-- Bootstrap core CSS -->
-    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     {% block style %}
     <!-- Custom styles for this template -->
     <link href="/static/css/main-css.css" rel="stylesheet">
     {% endblock%}
 
-    <title>{% block title %}Base page{% endblock %}</title>
+    <title>{% block title %}Meal Selection{% endblock %}</title>
 
   {% endblock %}
 </head>
 <body>
 {% block body %}
-  <div id="content">{% block content %}{% endblock %}</div>
+  <div id="content">{% block content %}Content{% endblock %}</div>
 
   <div id="footer">
   {% block footer %}
     <!-- Bootstrap core JavaScript -->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/static/vendor/jquery/jquery.js"></script>
     {% block JavaScript %}
     <!-- Custom JavaScript for this template -->
     <script src="/static/js/main-js.js"></script>

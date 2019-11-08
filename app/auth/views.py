@@ -3,13 +3,13 @@
 from . import auth
 from .. import main
 from flask_bootstrap import Bootstrap
-from flask import render_template,redirect,url_for
+from flask import render_template,redirect,url_for, flash, request
 from .forms import LoginForm, RegistrationForm
 from ..models import Role, User
 from .. import db
 from .. import bootstrap
 from ..email import send_email
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user
 
 
 #decoration
@@ -48,19 +48,19 @@ def logout():
     flash('用户登出')
     return redirect(url_for('main.index'))
 
-@auth.route('/register', methods = ['GET', 'POST'])
+@auth.route('/register/', methods = ['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email = form.email.data, 
                 username = form.username.data,
-                password = form.password.data)#password is used for add user but not password hash, need to confirm later
+                password = form.password.data)
         db.session.add(user)
         db.session.commit()
         # 下面我们要生成令牌然后发送邮件
-        token = user.generate_confirmation()
+        token = user.generate_confirmation_token()
         send_email(user.email, 'Confirmation of Your New Account', 
-                    'auth/email/confirm.html', user = user, token = token)
+                    'auth/email/confirm', user = user, token = token)
         flash('we have sent a confirmation email to you, please confirm it!!!')
         return redirect(url_for('main.index'))        
         #flash('Your Account has been registered')
@@ -89,10 +89,10 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
 	token = current_user.generate_confirmation_token()
-	send_email(current_user.email, 'Confrim Your Account', 'auth/email/confirm.html', user = current_user, token = token)
+	send_email(current_user.email, 'Confrim Your Account', 'auth/email/confirm', user = current_user, token = token)
 	flash('A New confirmaiton email has been sent to your mailbox.')
 	return redirect(url_for('main.index'))
 
 @auth.route('/forgot_password/')
 def forgot_password():
-    return render_template('forgot_password.html')
+    return render_template('auth/forgot_password.html')

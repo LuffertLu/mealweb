@@ -28,8 +28,6 @@ class Role(db.Model):
 	rolename = Column(String(64), unique = True, nullable = False)
 	user = relationship('User', backref = 'role', lazy = 'dynamic')
 
-	def __repr__(self):
-		return '<Role: %r>' % self.rolename
 
 
 
@@ -43,7 +41,12 @@ class User(UserMixin, db.Model):
 	__password_hash = Column(String(128))
 	role_id = Column(Integer, ForeignKey('role.id'))
 
-	def set_password(self, password):
+	@property
+	def password(self):
+		raise AttributeError('Password is not a readable attribute!')
+
+	@password.setter
+	def password(self, password):
 		self.__password_hash = generate_password_hash(password)
 
 	def verify_password(self, password):
@@ -67,9 +70,7 @@ class User(UserMixin, db.Model):
 		return True
 
 	def __repr__(self):
-		return '<User: %r>' % self.username
-
-
+		return '<User %r>' % self.username
 		
 
 class Plant(db.Model):
@@ -77,9 +78,7 @@ class Plant(db.Model):
 	id = Column(Integer, primary_key = True)	
 	plantname = Column(String(64))
 	color = Column(String(64))
-
-	def __repr__(self):
-		return '<Plant: %r>' % self.plantname		
+	
 
 
 
