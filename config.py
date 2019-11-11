@@ -6,12 +6,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
 	MAIL_SERVER = 'smtp.126.com'
-	MAIL_PORT = 587
-	MAIL_USE_TLS = True
+	MAIL_PORT = 465
+	MAIL_USE_TLS = False
+	MAIL_USE_SSL = True
 	#MAIL_USERNAME = os.environ.get('MAIL_USERNAME') it is none at the moment. to be check
 	MAIL_USERNAME = 'appdevelopment@126.com'
 	#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') it is none at the moment, to be check
-	MAIL_PASSWORD = 'bgcxhyvc'
+	MAIL_PASSWORD = 'MEAL1QAZ' # 126 mailbox authorized code
 	
 	FLASK_ADMIN = 'appdevelopment@126.com'
 	FLASK_POSTS_PER_PAGE = 15

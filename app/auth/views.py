@@ -9,7 +9,7 @@ from ..models import Role, User
 from .. import db
 from .. import bootstrap
 from ..email import send_email
-from flask_login import login_required, current_user, login_user
+from flask_login import login_required, current_user, login_user, logout_user
 
 
 #decoration
