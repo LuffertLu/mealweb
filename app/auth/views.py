@@ -3,7 +3,7 @@
 from . import auth
 from .. import main
 from flask_bootstrap import Bootstrap
-from flask import render_template,redirect,url_for, flash, request
+from flask import render_template, redirect,url_for, flash, request
 from .forms import LoginForm, RegistrationForm
 from ..models import Role, User
 from .. import db
@@ -15,7 +15,11 @@ from flask_login import login_required, current_user, login_user, logout_user
 #decoration
 @auth.before_app_request
 def before_request():
-	if current_user.is_authenticated and not current_user.confirmed and request.endpoint and request.blueprint != 'auth' and request.endpoint != 'static':
+	if current_user.is_authenticated \
+    and not current_user.confirmed \
+    and request.endpoint \
+    and request.blueprint != 'auth' \
+    and request.endpoint != 'static':
 		return redirect(url_for('auth.unconfirmed'))
 
 

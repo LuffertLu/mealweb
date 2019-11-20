@@ -5,11 +5,12 @@
 from . import main
 from ..email import send_email
 from .forms import NameForm
-from ..models import Role, User
+from ..models import Role, User, Permission
+from ..decorators import admin_required, permission_required
 
 
-from flask import render_template,redirect,url_for, request
-#from flask import session
+from flask import render_template,redirect,url_for, request, session
+from flask_login import login_required
 
 
 
@@ -37,3 +38,9 @@ def about():
 @main.route('/pricing/')
 def pricing():
 	return render_template('pricing.html')
+
+@main.route('/admin/')
+@login_required
+@admin_required
+def for_admins_only():
+	return "For administrators!"

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 #Internal dependency
-#from . import db
+from . import db
 
 #Model definition dependency
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, 
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean 
 
 from sqlalchemy.orm import relationship, backref, session
 
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -42,7 +42,7 @@ class Role(db.Model):
 	def __repr__():
 		return '<Role %r>' % self.name
 
-@staticmethod
+	@staticmethod
 	def insert_roles():
 		role = {
 				'User': [Permission.FOLLOW, Permission.COMMENT, Permission.WRITE],
@@ -74,6 +74,7 @@ class Role(db.Model):
 
 	def has_permission(self, perm):
 		return self.permission & perm == perm
+
 
 
 
@@ -133,11 +134,13 @@ class User(UserMixin, db.Model):
 
 
 
-class AnonymousUser(object):
-	"""docstring for AnonymousUser"""
-	def __init__(self, arg):
-		super(AnonymousUser, self).__init__()
-		self.arg = arg
+
+class AnonymousUser(AnonymousUserMixin):
+	def can(self, permission):
+		return False
+
+	def is_administrator(self):
+		return False
 
 
 
@@ -154,3 +157,8 @@ class Plant(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
+
+
+
+
+login_manager.anonymous_user = AnonymousUser
