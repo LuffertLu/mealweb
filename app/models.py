@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 #Internal dependency
-from . import db
+import hashlib
+from datetime import datetime
+from . import db, moment
 
 #Model definition dependency
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean 
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, DateTime 
 
 from sqlalchemy.orm import relationship, backref, session
 
@@ -86,6 +88,10 @@ class User(UserMixin, db.Model):
 	email = Column(String(64), unique = True)
 	__password_hash = Column(String(128))
 	role_id = Column(Integer, ForeignKey('role.id'))
+	location = Column(String(64))
+	about_me = Column(Text())
+	member_since = Column(DateTime(), default = datetime.now())
+	last_seen = Column(DateTime(), default = datetime.now())
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -128,6 +134,18 @@ class User(UserMixin, db.Model):
 
 	def is_administrator(self):
 		return self.can(Permission.ADMIN)
+
+	def ping(self):
+		self.last_seen = datetime.now
+		db.session.add(self)
+
+	def gravatar(self, size = 100, default = 'identicon', rating= 'g'):
+		url = 'https://secure.gravatar.com/avatar'
+		hash = hashlib.mds(self.email.lower().encode('utf-8')).hexdigest()
+		return '{url}/{hash}?s={size{&d={defrult}&r={rating}'.format(url=url, hash= hash, size= size, default = default, rating = rating)
+
+
+
 
 	def __repr__(self):
 		return '<User %r>' % self.username

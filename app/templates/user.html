@@ -1,0 +1,38 @@
+{% extends "layout_nav.html"%}
+{% block nav_title %}Home - {{user.username}}{% endblock %}
+
+{% block container%}
+<div class="page-header">
+	<h1>{{user.username}}</h1>
+	{%if user.username or user.location %}
+	<p>
+		{% if user.location %}
+			from <a href="http://maps.baidu.com/?q={{user.location}}">{{user.location}}</a>
+		{% endif %}
+	</p>
+	{% endif %}
+		{% if current_user.is_administrator() %}
+			<p><a href="mailto:{{user.email}}">{{user.email}}</a></p>
+		{% endif %}
+	<p>
+		{% if user.about_me %}<p>{{user.about_me}}</p>{% endif %}
+	</p>	
+	<p>
+		{% if user.gravatar %}
+		<img class="img-rounded profile-thumbnail" src="{{user.gravatar(size=256)}}">
+		{% endif %}
+	<p>
+
+	</p>
+		{% if user == current_user %}
+		<a href="{{url_for('.edit_profile')}}" class="btn btn-default" >Edit Profile</a>
+		{% endif %}
+		{% if current_user.is_administrator() %}
+		<a class="btn btn-danger" href="{{url_for('.edit_profile_admin', id= user.id)}}">Edit Profile</a>
+		{% endif %}
+	</p>
+</div>
+<div class="col-lg-5">    	
+    <a class="btn btn-primary" href="{{url_for('auth.logout')}}">Logout</a>
+</div>
+{% endblock %}
