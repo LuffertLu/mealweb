@@ -22,7 +22,7 @@ from . import login_manager
 
 
 
-
+#User Model start:
 class Permission:
 	FOLLOW = 1
 	COMMENT = 2
@@ -141,8 +141,8 @@ class User(UserMixin, db.Model):
 
 	def gravatar(self, size = 100, default = 'identicon', rating= 'g'):
 		url = 'https://secure.gravatar.com/avatar'
-		hash = hashlib.mds(self.email.lower().encode('utf-8')).hexdigest()
-		return '{url}/{hash}?s={size{&d={defrult}&r={rating}'.format(url=url, hash= hash, size= size, default = default, rating = rating)
+		hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash= hash, size= size, default = default, rating = rating)
 
 
 
@@ -159,15 +159,6 @@ class AnonymousUser(AnonymousUserMixin):
 
 	def is_administrator(self):
 		return False
-
-
-
-		
-class Plant(db.Model):
-	__tablename__ = 'plant'
-	id = Column(Integer, primary_key = True)	
-	plantname = Column(String(64))
-	color = Column(String(64))
 	
 
 
@@ -180,3 +171,34 @@ def load_user(user_id):
 
 
 login_manager.anonymous_user = AnonymousUser
+#User Model End
+
+
+
+#Meal Model Start
+class YinYangWuXing:
+	WUWEI = {'suan':1,'ku':2,'gan':3, 'xin':4, 'xian':5}
+	WUSE = {'qing':1, 'chi':2, 'huang':3, 'bai':4, 'hei':5}
+	WUXU = {'ji':1, 'yang':2, 'niu':3, 'ma':4, 'zhi':5}
+	WUZANG = {'gan':1, 'xin':2, 'pi':3, 'fei':4,'shen':5}
+	WUYIN = {'gong'}
+	WULEI = {'caomu'}
+	WUGU = {'mai':1, 'shu':2, 'ji':3, 'dao':4, 'dou':5}
+	WUFANG = {'dong'}
+	WUXING = {'chen'}
+
+
+
+
+class Meat(db.Model):
+	__tablename__ = 'meat'
+	id = Column(Integer, primary_key = True)
+
+
+class Plant(db.Model):
+	__tablename__ = 'plant'
+	id = Column(Integer, primary_key = True)	
+	plantname = Column(String(64))
+	color = Column(String(64))
+
+#Meal Model End
