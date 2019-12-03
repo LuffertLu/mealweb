@@ -2,7 +2,7 @@
 # encoding: utf-8
 from . import auth
 from .. import main
-from flask_bootstrap import Bootstrap
+#from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
 from .forms import LoginForm, RegistrationForm
 from ..models import Role, User

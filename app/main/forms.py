@@ -7,12 +7,12 @@ from wtforms.validators import DataRequired, Length
 
 
 
-
+"""
 class NameForm(FlaskForm):
-	"""docstring for NameForm"""
+	docstring for NameForm
 	name = StringField('What is your name?', validators=[DataRequired()])
 	submit = SubmitField('Submit')
-
+"""
 
 
 class EditProfileForm(FlaskForm):

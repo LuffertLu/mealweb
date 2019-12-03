@@ -24,6 +24,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from .main import main as main_blueprint
 from .auth import auth as auth_blueprint
+from .services import services as services_blueprint
 
 
 
@@ -40,7 +41,9 @@ def create_app(config_name):
 	mail.init_app(app)
 	moment.init_app(app)
 	login_manager.init_app(app)
+	#please register all modules below
 	app.register_blueprint(auth_blueprint, url_prefix = '/auth')
+	app.register_blueprint(services_blueprint, url_prefix = '/services')
 	# 这里加上了prefix，注册后蓝本中定义的所有路由都会加上这个前缀
     # 所有views中定义的/login会变成/auth/login
 	return app

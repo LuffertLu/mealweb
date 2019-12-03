@@ -193,12 +193,34 @@ class YinYangWuXing:
 class Meat(db.Model):
 	__tablename__ = 'meat'
 	id = Column(Integer, primary_key = True)
+	meatname = Column(String(64))
+
+
 
 
 class Plant(db.Model):
 	__tablename__ = 'plant'
 	id = Column(Integer, primary_key = True)	
 	plantname = Column(String(64))
+	mature_period = Column(DateTime()) 
 	color = Column(String(64))
+
+
+
+
+class Cuisine(db.Model):
+	__tablename__ = 'cuisine'
+	id = Column(Integer, primary_key = True)
+	cuisine_name = Column(String(64))
+	cuisine_king = Column(String(64))
+	cuisine_bishop = Column(String(64))
+	cuisine_assist = Column(String(64))
+	cuisine_envoy = Column(String(64))
+
+
+
+
+
+
 
 #Meal Model End
