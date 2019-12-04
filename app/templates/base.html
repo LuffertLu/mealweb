@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 {% import "bootstrap/wtf.html" as wtf %}
-<html lang="en">
+<html lang="cn">
 <head>
 	<meta charset="utf-8">
   {% block head %}
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     {% block style %}
     <!-- Custom styles for this template -->
     <link href="/static/css/main-css.css" rel="stylesheet">
     {% endblock%}
 
-    <title>{% block title %}Meal Selection{% endblock %}</title>
+    <title>{% block title %}今天吃什么{% endblock %}</title>
 
   {% endblock %}
 </head>
@@ -22,14 +24,14 @@
   <div class = "container">
     {% for message in get_flashed_messages() %}
     <div class = "alert alert-warning">
-      <!--<button type = "button" class = "close" data-dismiss="alert">&times;</button>-->
+      <button type = "button" class = "close" data-dismiss="alert">&times;</button>
       {{ message }}
     </div>
     {% endfor %}
   </div>
 
   {% block content %}
-    Content
+    内容
   {% endblock %}
   </div>
 
@@ -38,6 +40,8 @@
     <!-- Bootstrap core JavaScript -->
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.js"></script>
     <script src="/static/vendor/jquery/jquery.js"></script>
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     {% block JavaScript %}
     <!-- Custom JavaScript for this template -->
     <script src="/static/js/main-js.js"></script>
