@@ -14,7 +14,8 @@ class Config:
 	#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') it is none at the moment, to be check
 	MAIL_PASSWORD = 'MEAL1QAZ' # 126 mailbox authorized code
 	
-	FLASK_ADMIN = 'appdevelopment@126.com'
+	#FLASK_ADMIN = 'appdevelopment@126.com'
+	FLASK_ADMIN = 'admin@meal.com'
 	FLASK_POSTS_PER_PAGE = 15
 	FLASK_MAIL_SUBJECT_PREFIX = 'Meal'
 	FLASK_MAIL_SENDER = 'kaifa<appdevelopment@126.com>'
