@@ -1,3 +1,4 @@
+var copy="mealweb";
 (function($) {
   "use strict"; // Start of use strict
 
