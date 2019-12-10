@@ -1,11 +1,9 @@
 {% extends "base.html" %}
-
 {% block content %}
     <h1 class="site-heading text-center text-white d-none d-lg-block">
       <span class="site-heading-upper text-primary mb-3">A Free Bootstrap 4 Business Theme</span>
       <span class="site-heading-lower">Business Casual</span>
     </h1>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
       <div class="container">
@@ -26,13 +24,11 @@
             <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="{{url_for('main.about')}}">关于我们</a>
             </li>
-
-            <li class="nav-item active px-lg-4">
+            <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="{{url_for('main.contact')}}">联系我们</a>
             </li>
-
             {% if current_user.is_authenticated %}
-            <li class="nav-item active px-lg-4">
+            <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="{{url_for('main.user', username = current_user.username)}}">资料</a>
             </li>
             <li class="nav-item dropdown">
@@ -44,7 +40,7 @@
               </div>
             </li>
             {% else %}
-            <li class="nav-item active px-lg-4">
+            <li class="nav-item px-lg-4">
               <a class="nav-link text-uppercase text-expanded" href="{{url_for('auth.login')}}">登录</a>
             </li>
             {% endif %}
@@ -53,16 +49,13 @@
       </div>
     </nav>
   <!-- Page Content -->
-
+  {% block page_content %} 
   <div class="container">
-  {% block container %}	
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">关于
       <small>标题</small>
     </h1>
-    <!-- Page Content -->
-
-  {% endblock %}
   </div>
-
+  {% endblock %}
+  <!-- Page Content -->
 {% endblock %}
