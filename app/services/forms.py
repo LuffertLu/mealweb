@@ -4,7 +4,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Regexp, ValidationError, EqualTo
-from ..models import Meat, Plant
+from ..models.meal import Food, Cuisine, Meal
 
 
 

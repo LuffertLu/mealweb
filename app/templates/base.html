@@ -3,12 +3,15 @@
 <html lang="cn">
 <head>
 	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="mealweb">
+  <meta name="author" content="luffert">
   {% block head %}
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     {% block style %}
     <!-- Custom styles for this template -->
-    <link href="/static/css/main-css.css" rel="stylesheet">
+    <link href="/static/css/main_css.css" rel="stylesheet">
     {% endblock%}
     <title>{% block title %}今天吃什么{% endblock %}</title>
   {% endblock %}
@@ -16,34 +19,37 @@
 <body>
 {% block body %}
   <div id="content">
-  <div class = "container">
-    {% for message in get_flashed_messages() %}
-    <div class = "alert alert-warning">
-      <button type = "button" class = "close" data-dismiss="alert">&times;</button>
-      {{ message }}
+    <div class = "container">
+      {% for message in get_flashed_messages() %}
+      <div class = "alert alert-warning">
+        <button type = "button" class = "close" data-dismiss="alert">&times;</button>
+        {{ message }}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+
+    {% block content %}
+      内容
+    {% endblock %}
   </div>
 
-  {% block content %}
-    内容
-  {% endblock %}
-  </div>
+  
   <div id="footer">
+    {% block footer %}
     <footer class="footer text-faded text-center py-5">
-    <div class="container">
-      <p class="m-0 small">Copyright &copy; Your What to eat 2020</p>
-    </div>
-  </footer>
-  {% block footer %}
+      <div class="container">
+        <p class="m-0 small">Copyright &copy; Your What to eat 2020</p>
+      </div>
+    </footer>
+    {% endblock %}
+    
+    {% block JavaScript %}  
     <!-- Bootstrap core JavaScript -->
     <script src="/static/vendor/jquery/jquery.js"></script>
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.js"></script>    
-    {% block JavaScript %}
     <!-- Custom JavaScript for this template -->
-    <script src="/static/js/main-js.js"></script>
+    <script src="/static/js/main_js.js"></script>
     {% endblock %}
-  {% endblock %}
   </div>
 {% endblock %}
 </body>

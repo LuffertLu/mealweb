@@ -15,7 +15,7 @@ from flask_migrate import MigrateCommand, Migrate
 migrate = Migrate(app, db)
 manager.add_command('db',MigrateCommand)
 
-from app.models import User, Role
+from app.models.account import User, Role
 
 
 @app.shell_context_processor

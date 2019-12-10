@@ -5,7 +5,7 @@ from .. import main
 #from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
 from .forms import LoginForm, RegistrationForm
-from ..models import Role, User
+from ..models.account import Role, User
 from .. import db
 from .. import bootstrap
 from ..email import send_email

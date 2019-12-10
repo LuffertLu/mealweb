@@ -23,55 +23,45 @@
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+      <a class="navbar-brand" href="{{url_for('main.index')}}">{% block nav_title %}主页{% endblock %}</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="{{url_for('main.about')}}">关于</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="services.html">Services</a>
+            <a class="nav-link" href="{{url_for('services.intention')}}">选餐服务</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="nav-link" href="{{url_for('main.contact')}}">联系我们</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Portfolio
+              我的饮食结构
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-              <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-              <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-              <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-              <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-              <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+              <a class="dropdown-item" href="portfolio-1-col.html">列表菜谱？</a>
+              <a class="dropdown-item" href="portfolio-2-col.html">菜谱统计图？</a>
+              <a class="dropdown-item" href="portfolio-3-col.html">跟什么比一下？</a>
             </div>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Blog
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-              <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-              <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-            </div>
+          {% if current_user.is_authenticated %}
+           
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('main.user', username = current_user.username)}}">资料</a>
           </li>
-          <li class="nav-item active dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Other Pages
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-              <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-              <a class="dropdown-item active" href="sidebar.html">Sidebar Page</a>
-              <a class="dropdown-item" href="faq.html">FAQ</a>
-              <a class="dropdown-item" href="404.html">404</a>
-              <a class="dropdown-item" href="pricing.html">Pricing Table</a>
-            </div>
+          
+          {% else %}
+            
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('auth.login')}}">登录</a>
           </li>
+          
+          {% endif %}
+
         </ul>
       </div>
     </div>

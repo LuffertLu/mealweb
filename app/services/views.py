@@ -5,11 +5,10 @@ from .. import main
 #from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
 from .forms import IntentionForm
-from ..models import Meat, Plant
+from ..models.meal import Food, Cuisine, Meal
 from .. import db
 from .. import bootstrap
 from flask_login import login_required, current_user, login_user, logout_user
-
 
 
 

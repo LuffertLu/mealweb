@@ -5,7 +5,7 @@
 from . import main
 from ..email import send_email
 from .forms import EditProfileForm
-from ..models import Role, User, Permission
+from ..models.account import Role, User, Permission
 from ..decorators import admin_required, permission_required
 from .. import db
 
