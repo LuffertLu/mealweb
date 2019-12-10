@@ -33,10 +33,6 @@ class Food(db.Model):
 	mature_period = Column(Integer, default = 0) #number of mature week
 	validweeks = Column(Integer, default =  52) 
 	color = Column(String(64))
-	cuisine_king = relationship('Cuisine', backref = 'food', lazy = 'dynamic')
-	#cuisine_minister = relationship('Cuisine', backref = 'food', lazy = 'dynamic')
-	#cuisine_assist = relationship('Cuisine', backref = 'food', lazy = 'dynamic')
-	#cuisine_envoy = relationship('Cuisine', backref = 'food', lazy = 'dynamic')
 
 	def is_matured(self):
 		w = datetime.now().isocalendar()[1]-self.validweeks
@@ -55,17 +51,28 @@ class Cuisine(db.Model):
 	id = Column(Integer, primary_key = True)
 	cuisine_name = Column(String(64), nullable = False)
 	cuisine_king_id = Column(Integer, ForeignKey('food.id'), nullable = False)
-	cuisine_minister_id = Column(Integer, nullable = True)
-	cuisine_assist_id = Column(Integer, nullable = True)
-	cuisine_envoy_id = Column(Integer, nullable = True)
+	cuisine_minister_id = Column(Integer, ForeignKey('food.id'), nullable = True)
+	cuisine_assist_id = Column(Integer, ForeignKey('food.id'), nullable = True)
+	cuisine_envoy_id = Column(Integer, ForeignKey('food.id'), nullable = True)
 	cuisine_process = Column(Text(), nullable = False)
 	cook_type_id = Column(Integer, ForeignKey('cook.id'), nullable= False)
-
-	
+	cuisine_king = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_king_id], lazy = 'dynamic')
+	cuisine_minister = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_minister_id], lazy = 'dynamic')
+	cuisine_assist = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_assist_id], lazy = 'dynamic')
+	cuisine_envoy = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_envoy_id], lazy = 'dynamic')
 
 	def select_Cuisine():
 		cuisine = Cuisine.query.get(1)
 		return cuisine
+
+	def add_Cuisine():
+		pass
+
+	def modify_Cuisine():
+		pass
+
+	def delete_Cuisine():
+		pass
 
 
 		
@@ -77,6 +84,9 @@ class Cook(db.Model):
 	cooktype = Column(String(64))
 	cuisine = relationship('Cuisine', backref = 'cook', lazy = 'dynamic')
 
+	def add_Cook():
+		pass
+
 
 
 
@@ -86,10 +96,18 @@ class Meal(db.Model):
 	id = Column(Integer, primary_key = True)
 	menu = Column(String(128))
 	meal_date = Column(DateTime(), default = datetime.now())
+	course_id = Column(Integer, ForeignKey('cuisine.id'), nullable = False)
+	course = relationship('Cuisine', backref = 'meal', lazy = 'dynamic')
 
 	def create_Meal(*args, **kwargs):
 		cuisine = Cuisine
 		for x in range(1,10):
 			cuisine_list[x]= cuisine.select_Cuisine()
 
+	def create_menu():
+		pass
+
+	def select_Meal():
+		pass
+		
 #Meal Model End
