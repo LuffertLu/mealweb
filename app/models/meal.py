@@ -3,6 +3,7 @@
 import numpy as np
 from datetime import datetime
 from .. import db
+from .account import User
 
 #Model definition dependency
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, DateTime 
@@ -56,10 +57,12 @@ class Cuisine(db.Model):
 	cuisine_envoy_id = Column(Integer, ForeignKey('food.id'), nullable = True)
 	cuisine_process = Column(Text(), nullable = False)
 	cook_type_id = Column(Integer, ForeignKey('cook.id'), nullable= False)
-	cuisine_king = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_king_id], lazy = 'dynamic')
-	cuisine_minister = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_minister_id], lazy = 'dynamic')
-	cuisine_assist = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_assist_id], lazy = 'dynamic')
-	cuisine_envoy = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_envoy_id], lazy = 'dynamic')
+	cuisine_king = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_king_id])
+	#cuisine_minister = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_minister_id], lazy= 'dynamic')
+	#cuisine_assist = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_assist_id])
+	#cuisine_envoy = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_envoy_id])
+
+
 
 	def select_Cuisine():
 		cuisine = Cuisine.query.get(1)
@@ -96,18 +99,27 @@ class Meal(db.Model):
 	id = Column(Integer, primary_key = True)
 	menu = Column(String(128))
 	meal_date = Column(DateTime(), default = datetime.now())
-	course_id = Column(Integer, ForeignKey('cuisine.id'), nullable = False)
-	course = relationship('Cuisine', backref = 'meal', lazy = 'dynamic')
+	course_id = Column(Integer, ForeignKey('cuisine.id', ondelete='CASCADE'), nullable = False)
+	course = relationship('Cuisine', backref = backref('meal', uselist = True))
 
 	def create_Meal(*args, **kwargs):
 		cuisine = Cuisine
 		for x in range(1,10):
 			cuisine_list[x]= cuisine.select_Cuisine()
+		return cuisine_list
 
 	def create_menu():
 		pass
 
 	def select_Meal():
 		pass
+		
+class MealHistory(object):
+	"""docstring for MealHistory"""
+	__tablename__ = 'mealhistory'
+	id = Column(Integer, primary_key = True)
+	meal_date = Column(DateTime())
+	course_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable = False)
+	course = relationship('User', backref = backref('mealhistory', uselist = True))
 		
 #Meal Model End

@@ -56,3 +56,11 @@ def suggestion():
         #return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form = form)
 
+@services.route('/suggestion/<username>/')
+@login_required
+def suggestion(username):
+    user = User.query.filter_by(username=username).first()
+    meal = Meal.create_Meal()
+    if user is None:
+        about(404)
+    return render_template('suggestion.html', meal = meal)

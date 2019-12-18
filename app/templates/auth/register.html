@@ -1,51 +1,43 @@
 {% extends "base.html" %}
 
 {% block style %}
+{{super()}}
 <!-- Custom styles for this template -->
 <link href="/static/auth/auth.css" rel="stylesheet">
 {% endblock%}
 
 {% block title %}注册{% endblock %}
 
-{% block content %}
-<div class="page-header" align = "center">
-    <h1>注册</h1>
-</div>
-<div class="container">
-
-  <div class="card o-hidden border-0 shadow-lg my-5">
-    <div class="card-body p-0">
-      <!-- Nested Row within Card Body -->
+{% block body %}
+  <h1 class="site-heading text-center text-white d-none d-lg-block">
+    <span class="site-heading-upper text-primary mb-3">A Free Bootstrap 4 Business Theme</span>
+    <span class="site-heading-lower">Business Casual</span>
+  </h1>
+  <section class="page-section cta">
+    <div class="container">
       <div class="row">
-        <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-        
-        <div class="col-lg-7">
-          <div class="p-5">
-            <div class="text-left">
-              <h1 class="h4 text-gray-900 mb-4">创建账户</h1>
-                {{wtf.quick_form(form) }}
+        <div class="col-xl-9 mx-auto">
+          <div class="cta-inner text-center rounded">
+            <h2 class="section-heading mb-5">
+              <span class="section-heading-upper">Come On Sign On</span>
+              <span class="section-heading-lower">创建账户</span>
+            </h2>
+            <ul class="mb-5 text-left">
+              {{wtf.quick_form(form) }}
               <hr>
-              <a href="index.html" class="btn btn-google btn-user btn-block">
-                <i class="fab fa-google fa-fw"></i> 使用微博账号登录
-              </a>
-              <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                <i class="fab fa-facebook-f fa-fw"></i> 使用微信账号登录
-              </a>
-            </div>
-            <hr>
-            <div class="text-center">
-              <a class="small" href="{{url_for('auth.forgot_password')}}">忘记密码？</a>
-            </div>
-            <div class="text-center">
-              <a class="small" href="{{url_for('auth.login')}}">已有账号？  登录</a>
-            </div>
+              <div class="text-center">
+                <a class="mb-5" href="{{url_for('auth.forgot_password')}}">忘记密码?</a>
+              </div>
+              <div class="text-center">
+                <a class="mb-5" href="{{url_for('auth.login')}}">登录已有账号？</a>
+              </div>
+              <hr>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-</div>
+  </section>
 {% endblock %}
 
 
