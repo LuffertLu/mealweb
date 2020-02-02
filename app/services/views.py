@@ -4,8 +4,9 @@ from . import services
 from .. import main
 #from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
-from .forms import IntentionForm
+from .forms import IntentionForm, SuggestionForm
 from ..models.meal import Food, Cuisine, Meal
+from ..models.account import Role, User
 from .. import db
 from .. import bootstrap
 from flask_login import login_required, current_user, login_user, logout_user
@@ -37,30 +38,34 @@ def intention():
 
 
 
-@services.route('/suggestion/', methods = ['GET', 'POST'])
-def suggestion():
-    form = SuggestionForm()
-    if form.validate_on_submit():
-        user = User(email = form.email.data, 
-                username = form.username.data,
-                password = form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        # 下面我们要生成令牌然后发送邮件
-        token = user.generate_confirmation_token()
-        send_email(user.email, 'Confirmation of Your New Account', 
-                    'auth/email/confirm', user = user, token = token)
-        flash('we have sent a confirmation email to you, please confirm it!!!')
-        return redirect(url_for('main.index'))        
-        #flash('Your Account has been registered')
-        #return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', form = form)
 
-@services.route('/suggestion/<username>/')
+@services.route('/suggestion/<username>', methods = ['GET', 'POST'])
 @login_required
-def suggestion(username):
+def suggestion(username):   
     user = User.query.filter_by(username=username).first()
-    meal = Meal.create_Meal()
+    cuisine = Cuisine.query.filter(Cuisine.cuisine_name.like('%牛肉%')).all()
+    contents = [i for i in range(len(cuisine))]
+#    meal = Meal.create_Meal()
     if user is None:
         about(404)
-    return render_template('suggestion.html', meal = meal)
+ #   form = SuggestionForm()
+ #   form.name.data = cuisine.cuisine_name
+ #   form.process.data = cuisine.cuisine_process
+    return render_template('services/suggestion.html', contents = contents, cuisine = cuisine)
+
+
+
+
+@services.route('/bom/<username>', methods = ['GET', 'POST'])
+@login_required
+def bom(username):   
+    user = User.query.filter_by(username=username).first()
+    cuisine = Cuisine.query.filter_by(id = 1 ).first()
+    contents = [i for i in range(5)]
+#    meal = Meal.create_Meal()
+    if user is None:
+        about(404)
+ #   form = SuggestionForm()
+ #   form.name.data = cuisine.cuisine_name
+ #   form.process.data = cuisine.cuisine_process
+    return render_template('services/bom.html', contents = contents, cuisine = cuisine)

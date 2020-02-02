@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField, BooleanField
+from wtforms import StringField,SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Length, Regexp, ValidationError, EqualTo
 from ..models.meal import Food, Cuisine, Meal
 
@@ -24,9 +24,9 @@ class IntentionForm(FlaskForm):
 
 class SuggestionForm(FlaskForm):
 	"""docstring for RegistrationFormm"""
+	name = StringField('Name', validators= [Length(0, 64)])
+	process = TextAreaField('process')
 
-
-	submit = SubmitField('Register Account')
 
 
 

@@ -29,11 +29,11 @@ class Food(db.Model):
 	__tablename__ = 'food'
 	id = Column(Integer, primary_key = True)
 	foodname = Column(String(64))
-	species = Column(String(64))
-	part = Column(String(64))
+#	species = Column(String(64), default= 'vegetable')
+#	part = Column(String(64), default ='leaf')
 	mature_period = Column(Integer, default = 0) #number of mature week
 	validweeks = Column(Integer, default =  52) 
-	color = Column(String(64))
+#	color = Column(String(64), default = 'No')
 
 	def is_matured(self):
 		w = datetime.now().isocalendar()[1]-self.validweeks
@@ -52,9 +52,9 @@ class Cuisine(db.Model):
 	id = Column(Integer, primary_key = True)
 	cuisine_name = Column(String(64), nullable = False)
 	cuisine_king_id = Column(Integer, ForeignKey('food.id'), nullable = False)
-	cuisine_minister_id = Column(Integer, ForeignKey('food.id'), nullable = True)
-	cuisine_assist_id = Column(Integer, ForeignKey('food.id'), nullable = True)
-	cuisine_envoy_id = Column(Integer, ForeignKey('food.id'), nullable = True)
+#	cuisine_minister_id = Column(Integer, ForeignKey('food.id'), nullable = True)
+#	cuisine_assist_id = Column(Integer, ForeignKey('food.id'), nullable = True)
+#	cuisine_envoy_id = Column(Integer, ForeignKey('food.id'), nullable = True)
 	cuisine_process = Column(Text(), nullable = False)
 	cook_type_id = Column(Integer, ForeignKey('cook.id'), nullable= False)
 	cuisine_king = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_king_id])

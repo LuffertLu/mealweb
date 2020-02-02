@@ -132,7 +132,7 @@ class User(UserMixin, db.Model):
 		return self.can(Permission.ADMIN)
 
 	def ping(self):
-		self.last_seen = datetime.now
+		self.last_seen = datetime.now()
 		db.session.add(self)
 
 	def gravatar(self, size = 100, default = 'identicon', rating= 'g'):
