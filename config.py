@@ -14,13 +14,15 @@ class Config:
 	#MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') it is none at the moment, to be check
 	MAIL_PASSWORD = 'MEAL1QAZ' # 126 mailbox authorized code
 	
-	#FLASK_ADMIN = 'appdevelopment@126.com'
-	FLASK_ADMIN = 'admin@meal.com'
+	FLASK_ADMIN = 'appdevelopment@126.com'
+	FLASK_CONFIG = 'testing' #不起作用，要找找问题
+	#FLASK_ADMIN = 'admin@meal.com'
 	FLASK_POSTS_PER_PAGE = 15
 	FLASK_MAIL_SUBJECT_PREFIX = 'Meal'
 	FLASK_MAIL_SENDER = 'kaifa<appdevelopment@126.com>'
 
-	SECRET_KEY = 'meal123'
+	SECRET_KEY = os.urandom(24)
+	#SECRET_KEY = 'meal123'
 
 	@staticmethod
 	def init_app(app):
@@ -42,7 +44,7 @@ class TestingConfig(Config):
 	TESTING = True
 	host = '0.0.0.0'
 	port = 80
-	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
+	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_testing"
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 

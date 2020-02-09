@@ -3,19 +3,20 @@
 {% block nav_title %}今天吃这些吧 - {{user.username}}{% endblock %}
 
 {% block page_content %}
-    {% for i in contents %}        
+    {% for cuisine in cuisines %}
     <!-- Blog Post -->
     <div class="card mb-4">
       <div class="card-body">
         <div class="row">
           <div class="col-lg-6">
             <a href="#">
-              <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
+              <img class="img-fluid rounded" src="{{ cuisine.cuisine_elements[0][1] }}" alt="">
             </a>
           </div>
           <div class="col-lg-6">
-            <h2 class="card-title">{{cuisine[i].cuisine_name}}</h2>
-            <p class="card-text">{{cuisine[i].cuisine_process}}</p>
+            <h2 class="card-title">{{ cuisine.cuisine_elements[0][0] }}</h2>
+            <p class="card-text">{{ cuisine.materiallist }}</p>
+            <p class="card-text">{{ cuisine.steplist }}</p>
             <a href="#" class="btn btn-primary">Read More &rarr;</a>
           </div>
         </div>
@@ -30,13 +31,26 @@
     </div>
     {% endfor %}
 
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            test
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
       <li class="page-item">
-        <a class="page-link" href="{{url_for('.bom', username = current_user.username)}}">就是他了！</a>
+        <a class="page-link" href="{{ url_for('.bom', username = current_user.username) }}">就是他了！</a>
       </li>
       <li class="page-item">
-        <a class="page-link" href="{{url_for('.suggestion', username = current_user.username)}}">不满意，换一批 &rarr;</a>
+        <a class="page-link" href="{{ url_for('.suggestion', username = current_user.username) }}">不满意，换一批 &rarr;</a>
       </li>
     </ul>
 

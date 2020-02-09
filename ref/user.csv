@@ -1,0 +1,4 @@
+id,username,confirmed,email,_User__password_hash,role_id,location,about_me,member_since,last_seen
+1,appadmin,1,appdevelopment@126.com,pbkdf2:sha256:150000$2QHj9fjM$2d2718f2c9ebf1e941347f93e1f6a10a7e7daa0e3434885c2303101af9bc145f,3,NULL,NULL,"2020-02-07 15:58:22","2020-02-07 16:01:33"
+2,user2,1,user2@mealweb.com,pbkdf2:sha256:150000$QuO9nhYs$8c24388312f91b114214104308c2a4773317439819ef2a3f8f56157acdea5675,2,NULL,NULL,"2020-02-07 16:03:06","2020-02-07 16:03:06"
+3,user3,1,user3@mealweb.com,pbkdf2:sha256:150000$JbhjnR4t$5ce9eaa1e7c10289a1f47e213d1c942ca6f227bc52010b59c384cddbed2929c1,1,NULL,NULL,"2020-02-07 16:03:06","2020-02-07 16:03:06"

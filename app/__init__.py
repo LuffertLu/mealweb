@@ -46,7 +46,7 @@ def create_app(config_name):
 	app.register_blueprint(auth_blueprint, url_prefix = '/auth')
 	app.register_blueprint(services_blueprint, url_prefix = '/services')
 	# 这里加上了prefix，注册后蓝本中定义的所有路由都会加上这个前缀
- 	# 所有views中定义的/login会变成/auth/login
+ 	# 例如所有views中定义的/login会变成/auth/login
 
 	return app
 

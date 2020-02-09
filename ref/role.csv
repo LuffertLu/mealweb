@@ -1,0 +1,4 @@
+id,rolename,default,permission
+1,User,0,7
+2,Moderator,1,15
+3,Administrator,0,31

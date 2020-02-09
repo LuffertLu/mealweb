@@ -9,6 +9,7 @@ from .account import User
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, DateTime 
 
 from sqlalchemy.orm import relationship, backref, session
+import random
 
 #Meal Model Start
 class YinYangWuXing:
@@ -29,53 +30,22 @@ class Food(db.Model):
 	__tablename__ = 'food'
 	id = Column(Integer, primary_key = True)
 	foodname = Column(String(64))
-#	species = Column(String(64), default= 'vegetable')
-#	part = Column(String(64), default ='leaf')
-	mature_period = Column(Integer, default = 0) #number of mature week
+	species = Column(String(64), default= 'vegetable')
+	mature_week = Column(Integer, default = 0) #number of mature week
 	validweeks = Column(Integer, default =  52) 
 #	color = Column(String(64), default = 'No')
 
 	def is_matured(self):
-		w = datetime.now().isocalendar()[1]-self.validweeks
-		if w <=0 :
-			w = w+52
-		if w >= self.mature_period: #if current week later than matue week
+		week = datetime.now().isocalendar()[1]-self.validweeks
+		if week <=0 :
+			week = week+52
+		if week >= self.mature_period: #if current week later than matue week
 			return True
 		else:
 			return False
-
-
-
-
-class Cuisine(db.Model):
-	__tablename__ = 'cuisine'
-	id = Column(Integer, primary_key = True)
-	cuisine_name = Column(String(64), nullable = False)
-	cuisine_king_id = Column(Integer, ForeignKey('food.id'), nullable = False)
-#	cuisine_minister_id = Column(Integer, ForeignKey('food.id'), nullable = True)
-#	cuisine_assist_id = Column(Integer, ForeignKey('food.id'), nullable = True)
-#	cuisine_envoy_id = Column(Integer, ForeignKey('food.id'), nullable = True)
-	cuisine_process = Column(Text(), nullable = False)
-	cook_type_id = Column(Integer, ForeignKey('cook.id'), nullable= False)
-	cuisine_king = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_king_id])
-	#cuisine_minister = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_minister_id], lazy= 'dynamic')
-	#cuisine_assist = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_assist_id])
-	#cuisine_envoy = relationship('Food', backref = 'cuisine', foreign_keys = [cuisine_envoy_id])
-
-
-
-	def select_Cuisine():
-		cuisine = Cuisine.query.get(1)
-		return cuisine
-
-	def add_Cuisine():
-		pass
-
-	def modify_Cuisine():
-		pass
-
-	def delete_Cuisine():
-		pass
+	
+	def select_Food_random():
+		return Food.query.get(random.randint(1,5)).foodname
 
 
 		
@@ -84,42 +54,45 @@ class Cook(db.Model):
 	"""docstring for Cook"db.Model"""
 	__tablename__ = 'cook'
 	id = Column(Integer, primary_key = True)
-	cooktype = Column(String(64))
-	cuisine = relationship('Cuisine', backref = 'cook', lazy = 'dynamic')
+	cookname = Column(String(64))
 
-	def add_Cook():
-		pass
-
+	def select_Cook_random():
+		return Cook.query.get(random.randint(1,5)).cookname
 
 
 
-class Meal(db.Model):
-	"""docstring for meal""" 
-	__tablename__ = 'meal'
+class Taste(db.Model):
+	"""docstring for Taste"db.Model"""
+	__tablename__ = 'taste'
 	id = Column(Integer, primary_key = True)
-	menu = Column(String(128))
-	meal_date = Column(DateTime(), default = datetime.now())
-	course_id = Column(Integer, ForeignKey('cuisine.id', ondelete='CASCADE'), nullable = False)
-	course = relationship('Cuisine', backref = backref('meal', uselist = True))
+	tastename = Column(String(64))
 
-	def create_Meal(*args, **kwargs):
-		cuisine = Cuisine
-		for x in range(1,10):
-			cuisine_list[x]= cuisine.select_Cuisine()
-		return cuisine_list
+	def select_Taste_random():
+		return Taste.query.get(random.randint(1,5))
 
-	def create_menu():
-		pass
 
-	def select_Meal():
-		pass
-		
-class MealHistory(object):
-	"""docstring for MealHistory"""
-	__tablename__ = 'mealhistory'
+
+
+class Cuisine(db.Model):
+	__tablename__ = 'cuisine'
 	id = Column(Integer, primary_key = True)
-	meal_date = Column(DateTime())
-	course_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable = False)
-	course = relationship('User', backref = backref('mealhistory', uselist = True))
-		
+	cuisinename = Column(String(64), nullable = False)
+	cuisine_url = Column(Text(), nullable = False)
+	cuisine_time = Column(DateTime(), default = datetime.now())
+	#multiple cuisines to one
+	cook_id = Column(Integer, ForeignKey('cook.id'), nullable = False)	
+	cuisine_cook = relationship('Cook', backref = 'cuisine', foreign_keys = [cook_id])
+	taste_id = Column(Integer, ForeignKey('taste.id'), nullable = False)
+	cuisine_taste = relationship('Taste', backref = 'cuisine', foreign_keys = [taste_id])
+	food_id = Column(Integer, ForeignKey('food.id'), nullable = False)
+	cuisine_food = relationship('Food', backref = 'cuisine', foreign_keys = [food_id])	
+	user_id= Column(Integer, ForeignKey('user.id'), nullable = False)
+	cuisine_user = relationship('User', backref = 'cuisine', foreign_keys = [user_id])
+
+	def select_Cuisine_random():
+		#挑选搜索关键字
+		#search_url=
+		cuisine = Cuisine.query.get(random.randint(1,5))
+		return cuisine
+				
 #Meal Model End
