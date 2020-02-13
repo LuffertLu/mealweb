@@ -3,13 +3,15 @@
 import numpy as np
 from datetime import datetime
 from .. import db
-from .account import User
+
 
 #Model definition dependency
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, DateTime 
 
 from sqlalchemy.orm import relationship, backref, session
 import random
+
+from .account import User
 
 #Meal Model Start
 class YinYangWuXing:
@@ -68,7 +70,7 @@ class Taste(db.Model):
 	tastename = Column(String(64))
 
 	def select_Taste_random():
-		return Taste.query.get(random.randint(1,5))
+		return Taste.query.get(random.randint(1,5)).tastename
 
 
 
@@ -87,7 +89,7 @@ class Cuisine(db.Model):
 	food_id = Column(Integer, ForeignKey('food.id'), nullable = False)
 	cuisine_food = relationship('Food', backref = 'cuisine', foreign_keys = [food_id])	
 	user_id= Column(Integer, ForeignKey('user.id'), nullable = False)
-	cuisine_user = relationship('User', backref = 'cuisine', foreign_keys = [user_id])
+	cuisine_user = relationship('User', foreign_keys = [user_id])
 
 	def select_Cuisine_random():
 		#挑选搜索关键字

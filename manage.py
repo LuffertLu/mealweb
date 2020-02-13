@@ -4,7 +4,7 @@ import os
 
 #Create app
 from app import create_app, db
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app = create_app(os.getenv('FLASK_CONFIG') or 'development')
 
 #create app manager
 from flask_script import Manager, Shell
@@ -16,6 +16,8 @@ migrate = Migrate(app, db)
 manager.add_command('db',MigrateCommand)
 
 from app.models.account import User, Role
+from app.models.meal import Food, Cook, Taste, Cuisine
+from app.models.resource import File, Image, Page
 
 
 @app.shell_context_processor

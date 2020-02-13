@@ -42,11 +42,11 @@ def about():
 def pricing():
 	return render_template('pricing.html')
 
-@main.route('/admin/')
-@login_required
-@admin_required
-def for_admins_only():
-	return "For administrators!"
+#@main.route('/admin/')
+#@login_required
+#@admin_required
+#def for_admins_only():
+#	return "For administrators!"
 
 @main.route('/user/<username>/')
 @login_required

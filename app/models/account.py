@@ -1,8 +1,10 @@
 #account model
+
 import hashlib
 
 from datetime import datetime
 from .. import db, moment
+
 
 #Model definition dependency
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Text, DateTime 
@@ -16,6 +18,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer
 from flask import current_app
 from .. import login_manager
 
+#from .meal import Cuisine
 
 
 #User Model start:
@@ -35,10 +38,9 @@ class Role(db.Model):
 	rolename = Column(String(64), unique = True, nullable = False)
 	default = Column(Boolean, default = False, index = True)
 	permission = Column(Integer)
-	user = relationship('User', backref = 'role', lazy = 'dynamic')
 
 	def __repr__():
-		return '<Role %r>' % self.name
+		return '<Role %r>' % self.rolename
 
 	@staticmethod
 	def insert_roles():
@@ -83,11 +85,15 @@ class User(UserMixin, db.Model):
 	confirmed = Column(Boolean, default = False)
 	email = Column(String(64), unique = True)
 	__password_hash = Column(String(128))
+
 	role_id = Column(Integer, ForeignKey('role.id'))
+	role = relationship('Role', foreign_keys=[role_id])
+
 	location = Column(String(64))
 	about_me = Column(Text())
 	member_since = Column(DateTime(), default = datetime.now())
 	last_seen = Column(DateTime(), default = datetime.now())
+
 
 	def __init__(self, **kwargs):
 		super(User, self).__init__(**kwargs)
@@ -96,6 +102,9 @@ class User(UserMixin, db.Model):
 				self.role = Role.query.filter_by(name = 'Administrator').first()
 			if self.role is None:
 				self.role = Role.query.filter_by(default = True).first()
+
+	def __repr__(self):
+		return '<User %r>' % self.username
 
 	@property
 	def password(self):
@@ -140,8 +149,7 @@ class User(UserMixin, db.Model):
 		hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 		return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash= hash, size= size, default = default, rating = rating)
 
-	def __repr__(self):
-		return '<User %r>' % self.username
+
 
 
 

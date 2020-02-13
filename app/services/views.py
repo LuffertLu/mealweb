@@ -2,7 +2,8 @@
 # encoding: utf-8
 from . import services
 from .. import main
-from ..main.requester import requester, get_Cuisine, Show_Cuisine
+from ..main.requester import requester
+from .cuisine_spider import get_Cuisine, Show_Cuisine
 #from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
 from .forms import IntentionForm, SuggestionForm
@@ -43,8 +44,9 @@ def suggestion(username):
     intention = IntentionForm
     show_cuisine = Show_Cuisine
     show_cuisine_list = []
-    if intention.random_all:
-        for i in range(5):
+    if intention.random_all: #全随机选
+        i = 0
+        while i < 5:
             main_food = Food.select_Food_random()
             cook = Cook.select_Cook_random()   
             try:
@@ -53,7 +55,10 @@ def suggestion(username):
                 continue
             if show_cuisine != 'dummy':
                 show_cuisine_list.append(show_cuisine)
-    else:
+            else:
+                continue
+            i = i+1
+    else: #有限制条件地选
         return redirect(url_for('main.index'))
     return render_template('services/suggestion.html', cuisines = show_cuisine_list)
    

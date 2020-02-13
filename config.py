@@ -15,11 +15,12 @@ class Config:
 	MAIL_PASSWORD = 'MEAL1QAZ' # 126 mailbox authorized code
 	
 	FLASK_ADMIN = 'appdevelopment@126.com'
-	FLASK_CONFIG = 'testing' #不起作用，要找找问题
+	FLASK_CONFIG = 'development' #不起作用，要找找问题
 	#FLASK_ADMIN = 'admin@meal.com'
 	FLASK_POSTS_PER_PAGE = 15
 	FLASK_MAIL_SUBJECT_PREFIX = 'Meal'
 	FLASK_MAIL_SENDER = 'kaifa<appdevelopment@126.com>'
+	FLASK_ADMIN_SWATCH = 'default' #css style could be default
 
 	SECRET_KEY = os.urandom(24)
 	#SECRET_KEY = 'meal123'
@@ -35,6 +36,7 @@ class DevelopmentConfig(Config):
 	DEBUG = True
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_dev"
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+	FLASK_CONFIG = 'development' 
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 		
 
@@ -46,6 +48,7 @@ class TestingConfig(Config):
 	port = 80
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal_testing"
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	FLASK_CONFIG = 'Testing' 
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data-dev.mysql')
 
 		
@@ -56,6 +59,7 @@ class ProductionConfig(Config):
 	port = 80
 	SQLALCHEMY_DATABASE_URI = "mysql://admin:1qaz@localhost/meal"
 	SQLALCHEMY_TRACK_MODIFICATIONS = True
+	FLASK_CONFIG = 'production' 
 #	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') OR 'mysql:///' + os.path.join(basedir, 'data.mysql')
 
 
