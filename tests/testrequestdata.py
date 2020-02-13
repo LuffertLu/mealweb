@@ -196,16 +196,28 @@ how_to_header= {
 #        main_steps.append(steps)
 #print(main_steps)
 
-#c_l = ''
+c_l = ''
 #q_l = ''
 
-#items = root.xpath('/html/body/div[5]/div/div/div[@class="category_sub clear"]')
-#for item in items:
-#    c=item.xpath('./h3/text()')[0]
-#    c_l = c_l+c+' '
-#with open('shuichanlei.txt', 'w') as f:        
-#    f.write(c_l)
-#        f.write('\n'.join(c))
+search_url = 'https://www.meishichina.com/YuanLiao/category/rql/'
+print(search_url)
+r=requester(search_url)
+# 设置网页编码格式
+r.encoding = 'utf8'
+# 将request.content 转化为 Element
+
+root = etree.HTML(r.content)
+items = root.xpath('/html/body/div[5]/div/div/div[@class="category_sub clear"]')
+print(root.xpath('/html/body/div[5]/div/div/div[1]/ul/li[1]/a/text()')[0])
+for item in items:
+    cats = item.xpath('./ul/li')
+    for cat in cats:
+        c=cat.xpath('./a/text()')[0]
+        c_l = c_l+c+' '
+
+with open('suoyouroulei.txt', 'w') as f:
+    f.write(c_l)
+    f.write('\n'.join(c))
 
 #    b=item.xpath('./b/text()')[0]
 #    p=re.compile(r'(?<=共)\d+\.?\d*')
