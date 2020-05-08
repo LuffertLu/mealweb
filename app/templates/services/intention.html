@@ -7,7 +7,7 @@
   <!-- Page Heading/Breadcrumbs -->
   
   <!-- Image Header -->
-  <a class = "submit" href="{{url_for('.suggestion', username=current_user.username, intention=IntentionForm)}}">
+  <a class = "submit" href="{{url_for('.suggestion', rule='random')}}">
     <img class="img-fluid" src="/static/img/quick_select1.jpg">快速选择</img>
   </a>
 
@@ -32,34 +32,34 @@
   <div class="row">
     <div class="col-lg-4 mb-4">
       <div class="card h-100">
-        <h4 class="card-header">Card Title</h4>
+        <h4 class="card-header">根据现有食材选择</h4>
         <div class="card-body">
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          <p class="card-text">冰箱里发现了食材，不知道该做什么菜</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary">Learn More</a>
+          <a href="{{url_for('.foodlist')}}" class="btn btn-primary">选择食材</a>
         </div>
       </div>
     </div>
     <div class="col-lg-4 mb-4">
       <div class="card h-100">
-        <h4 class="card-header">Card Title</h4>
+        <h4 class="card-header">根据餐饮记录推荐</h4>
         <div class="card-body">
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
+          <p class="card-text">根据之前的餐饮记录，结合营养和时节推荐</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary">Learn More</a>
+          <a href="{{url_for('.mealhistory', username=current_user.username)}}" class="btn btn-primary">开始推荐</a>
         </div>
       </div>
     </div>
     <div class="col-lg-4 mb-4">
       <div class="card h-100">
-        <h4 class="card-header">Card Title</h4>
+        <h4 class="card-header">根据季节推荐</h4>
         <div class="card-body">
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          <p class="card-text">根据当前的时间和食材成熟的时间推荐</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary">Learn More</a>
+          <a href="{{url_for('.season')}}" class="btn btn-primary">天人合一</a>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # encoding: utf-8
+from config import basedir 
 from . import my_flask_admin
 
 import os
@@ -25,9 +26,12 @@ from .forms import EditFoodForm
 
 from ..models.account import Role, User
 from ..models.meal import Food, Taste, Cook, Cuisine
-from ..models.resource import File, Image, Page, CKTextAreaWidget, CKTextAreaField, file_path
+from ..models.resource import File, Image, Page, CKTextAreaWidget, CKTextAreaField
 
 #menu_icon_type='glyph', menu_icon_value='glyphicon-home',
+
+
+
 
 
 # Customized User model admin
@@ -56,23 +60,23 @@ class MyModelView(sqla.ModelView):
 
 
 # Administrative views
-class AdminView(BaseView):
+class CustomizedView(BaseView):
     @login_required
     @admin_required
     @expose('/')
     def index(self):
-        return self.render('admin/myadmin.html')
+        return self.render('admin/customized.html')
 
 
 
-class AnotherAdminView(BaseView):
+class ComboView1(BaseView):
     @login_required
     @admin_required
     @expose('/')
     def index(self):
-        return self.render('admin/anotheradmin.html')
+        return self.render('admin/combo1.html')
 
-    @expose('/test4/')
+    @expose('/test/')
     def test(self):
         return self.render('admin/test.html')
 
@@ -249,7 +253,7 @@ class TasteView(MyModelView):
         'id',
         'tastename'
     ]
-    
+
     column_auto_select_related = True
 
 
@@ -293,6 +297,8 @@ class PageView(MyModelView):
 
 
 class FileView(MyModelView):
+    # Create directory for image path fields to use
+    file_path = op.join(basedir, 'app/static/files')
 
     # Override form field to use Flask-Admin FileUploadField
     form_overrides = {
@@ -312,15 +318,15 @@ class FileView(MyModelView):
 
 
 class ImageView(MyModelView):
-    @login_required
-    @admin_required
-#    @expose('/')
+    # Create directory for image path fields to use
+    img_path = op.join(basedir, 'app/static/img')
+
     def _list_thumbnail(view, context, model, name):
         if not model.path:
             return ''
 
         return Markup('<img src="%s">' % url_for('static',
-                                                 filename=form.thumbgen_filename(model.path)))
+                                                 filename=op.join('img/', form.thumbgen_filename(model.path))))
 
     column_formatters = {
         'path': _list_thumbnail
@@ -330,7 +336,7 @@ class ImageView(MyModelView):
     # In this case, Flask-Admin won't attempt to merge various parameters for the field.
     form_extra_fields = {
         'path': form.ImageUploadField('Image',
-                                      base_path=file_path,
+                                      base_path=img_path,
                                       thumbnail_size=(100, 100, True))
     }
 
@@ -339,8 +345,6 @@ class ImageView(MyModelView):
 
 
 # Create admin interface
-#my_flask_admin.add_view(AdminView(name = 'view1'))
-#my_flask_admin.add_view(AnotherAdminView(name="view2", category='Test3'))
 my_flask_admin.add_view(RoleView(Role, db.session))
 my_flask_admin.add_view(UserView(User, db.session))
 
@@ -353,3 +357,6 @@ my_flask_admin.add_view(FileView(File, db.session))
 my_flask_admin.add_view(ImageView(Image, db.session))
 my_flask_admin.add_view(PageView(Page, db.session))
 my_flask_admin.add_view(rediscli.RedisCli(Redis()))
+
+my_flask_admin.add_view(CustomizedView(name = 'CustomizedView'))
+my_flask_admin.add_view(ComboView1(name="ComboView1", category='Combo'))

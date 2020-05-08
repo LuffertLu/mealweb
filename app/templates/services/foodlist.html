@@ -1,0 +1,15 @@
+{% extends "layout_nav.html"%}
+
+{% block page_content %}
+<div class="page-header">
+	<h1>根据存储的食材选择菜品</h1>
+
+	<p>
+        <ul class="mb-5 text-left">
+          {{wtf.quick_form(form) }}
+        </ul>
+	<p>
+
+</div>
+
+{% endblock %}

@@ -15,10 +15,43 @@
           </div>
           <div class="col-lg-6">
             <h2 class="card-title">{{ cuisine.cuisine_elements[0][0] }}</h2>
-            <p class="card-text">{{ cuisine.materiallist }}</p>
-            <p class="card-text">{{ cuisine.steplist }}</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <a href="#" class="btn btn-primary">加入菜单 &rarr;</a>
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>原料</th>
+                    <th>用量</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for material in cuisine.materiallist %}
+                  <tr>
+                    <td>{{ material[0] }}</td>
+                    <td>{{ material[1] }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>步骤</th>
+                    <th>做法</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for step in cuisine.steplist %}
+                  <tr>
+                    <td>{{ step[(0)] }}</td>
+                    <td>{{ step[(1)] }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>          
           </div>
+
         </div>
       </div>
       <div class="card-footer text/javascript">
@@ -35,19 +68,30 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-6">
-            <div class="panel-heading ui-sortable-handle">
-                <div class="panel-control">
-                    <button class="btn btn-mint" data-click="panel-expand"><i class="fa fa-expand"></i></button>
-                    <button class="btn btn-mint" data-click="panel-reload"><i class="fa fa-refresh"></i></button>
-                    <button class="btn btn-mint" data-click="panel-collapse"><i class="fa fa-chevron-down"></i></button>
-                    <button class="btn btn-mint" data-dismiss="panel"><i class="fa fa-times"></i></button>
-                </div>
-                <h3 class="panel-title">Mint</h3>
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>原料</th>
+                    <th>用量</th>
+                  </tr>
+                </thead>
+              </table>
             </div>
-            <div class="panel-body">
-                <p>Lorem ipsum dolor sit amet.</p>
+
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>步骤</th>
+                    <th>做法</th>
+                  </tr>
+                </thead>
+              </table>
             </div>
           </div>
+          <a href="#" class="btn btn-primary">加入菜单 &rarr;</a>
+          {{ food }}
         </div>
       </div>
     </div>
@@ -55,10 +99,10 @@
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('.bom', username = current_user.username) }}">就是他了！</a>
+        <a class="page-link" href="{{ url_for('services.bom') }}">就是他了！</a>
       </li>
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('.suggestion', username = current_user.username) }}">不满意，换一批 &rarr;</a>
+        <a class="page-link" href="{{ url_for('services.suggestion', rule = 'quick') }}">不满意，换一批 &rarr;</a>
       </li>
     </ul>
 

@@ -1,6 +1,12 @@
 ##ignore these files##
-/venv/
-/__pycache__/
-/migrations/
+migrations
 *.pyc
-/files/
+files
+*.swp
+.cache
+.ropeproject
+venv
+.DS_Stote
+.env
+ref
+

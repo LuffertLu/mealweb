@@ -3,21 +3,28 @@
 import os
 
 #Create app
-from app import create_app, db
-app = create_app(os.getenv('FLASK_CONFIG') or 'development')
-
-#create app manager
-from flask_script import Manager, Shell
-manager = Manager(app)
-
-#init and migrate DB
+from config import config
+from app import create_app, bootstrap, db, mail, moment, login_manager
+from flask_script import Manager, Shell, Server
 from flask_migrate import MigrateCommand, Migrate
-migrate = Migrate(app, db)
-manager.add_command('db',MigrateCommand)
-
 from app.models.account import User, Role
 from app.models.meal import Food, Cook, Taste, Cuisine
 from app.models.resource import File, Image, Page
+
+app = create_app(os.getenv('FLASK_CONFIG') or 'testing')
+app.secret_key = os.urandom(24)
+
+#create app manager
+manager = Manager(app)
+
+#init and migrate DB
+migrate = Migrate(app, db)
+manager.add_command('db',MigrateCommand)
+
+#init server
+server = Server(host=app.config['HOST'], port=app.config['PORT'])
+manager.add_command("runserver", server)
+
 
 
 @app.shell_context_processor
@@ -26,9 +33,8 @@ def make_shell_context():
 	manager.add_command("shell",
 						Shell(make_context=make_shell_context))
 
-app.secret_key = os.urandom(24)
 
 
 if __name__=="__main__":
-    manager.run()
+	manager.run()
     #app.run(debug = True, port = 8000)

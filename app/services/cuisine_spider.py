@@ -40,10 +40,10 @@ class Show_Cuisine(object):
     def add_material(self, food, quantity):
         self.materiallist.append([food, quantity])
 
-    def add_step(self, step_index, step_word):#, step_img_url
-        self.steplist.append([step_index, step_word])
+    def add_step(self, step_index, step_word, step_img_url):
+        self.steplist.append([step_index, step_word, step_img_url])
 
-def get_Cuisine(food, cook):
+def get_Cuisine(food, cook = ''):
     #search_url = 'https://home.meishichina.com/search/'+key_word+'/'
     search_url = 'https://home.meishichina.com/search/'+food+' '+cook+'/'
     root = etree.HTML(requester(search_url).content)
@@ -55,7 +55,7 @@ def get_Cuisine(food, cook):
     available_cuisines = int(re.findall(r'\d+', s)[0])
     
     if available_cuisines < 5:
-        return "dummy"
+        return 'dummy'
     elif available_cuisines <= 20:
         target_cuisine_url = root.xpath('/html/body/div[3]/div/div[1]/div[2]/ul/li[{}]/div[2]/h4/a/@href'.format(random.randint(1,available_cuisines)))[0]
     else:       
@@ -99,10 +99,11 @@ def get_Cuisine(food, cook):
         details = step.xpath('./ul/li')
         for detail in details:
             try:
-                step_index = detail.xpath('./div[2]/div/text()')[0], #索引
-                step_word = detail.xpath('./div[2]/text()')[0], #文字
+                step_index = detail.xpath('./div[2]/div/text()')[0] #索引
+                step_word = detail.xpath('./div[2]/text()')[0] #文字
                 step_img_url = detail.xpath('./div[1]/img/@src')[0] #图片
             except IndexError:
                 return 'dummy'
-            cuisine_process.add_step(step_index, step_word)
+            cuisine_process.add_step(step_index, step_word, step_img_url)
+    
     return cuisine_process

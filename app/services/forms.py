@@ -12,13 +12,13 @@ from ..models.meal import Food, Cuisine, Cook, Taste
 #Code start
 class IntentionForm(FlaskForm):
 	"""docstring for loginForm"""
-	random_all = BooleanField('Random')
-	#recent_menu  = StringField('Email', validators = [DataRequired(), Length(1, 64), Email()])#list, recent five meals
-	meat_mandontory = BooleanField('must have meat')
-	vegetable_mandontory = BooleanField('must have vegetable')
-	fruit_mandantory = BooleanField('must have fruit')
+	storage = StringField('还剩什么食物要做菜？', validators = [DataRequired(), Length(1, 64)])	
+	random_all = BooleanField('完全随机选择')
+	meat_mandontory = BooleanField('必须要有纯肉菜')
+	vegetable_mandontory = BooleanField('必须要有纯素菜')
+	fruit_mandantory = BooleanField('要有水果')
 
-	submit = SubmitField('what do we eat today')
+	submit = SubmitField('选择这顿的菜谱')
 
 
 

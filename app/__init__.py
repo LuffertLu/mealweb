@@ -34,7 +34,6 @@ from .admin import my_flask_admin
 def create_app(config_name):
 	app = Flask(__name__)	
 	app.config.from_object(config[config_name])
-	config[config_name].init_app(app)
 	bootstrap.init_app(app)
 	app.register_blueprint(main_blueprint, url_prefix = '')
 	db.init_app(app)
@@ -52,7 +51,6 @@ def create_app(config_name):
 
 	#创建管理员功能
 	my_flask_admin.init_app(app)
-
 	return app
 
 

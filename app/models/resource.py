@@ -1,5 +1,5 @@
 #resource model
-
+from config import basedir 
 from .. import db
 
 #Model definition dependency
@@ -19,14 +19,6 @@ from sqlalchemy.event import listens_for
 from flask_admin import form
 
 
-
-
-# Create directory for file fields to use
-file_path = op.join(op.dirname(__file__), 'files')
-try:
-    os.mkdir(file_path)
-except OSError:
-    pass
 
 
 # Create models
@@ -64,6 +56,7 @@ class Page(db.Model):
 # Delete hooks for models, delete files if models are getting deleted
 @listens_for(File, 'after_delete')
 def del_file(mapper, connection, target):
+    file_path = op.join(basedir, 'app/static/files')
     if target.path:
         try:
             os.remove(op.join(file_path, target.path))
@@ -74,16 +67,17 @@ def del_file(mapper, connection, target):
 
 @listens_for(Image, 'after_delete')
 def del_image(mapper, connection, target):
+    img_path = op.join(basedir, 'app/static/img')
     if target.path:
         # Delete image
         try:
-            os.remove(op.join(file_path, target.path))
+            os.remove(op.join(img_path, target.path))
         except OSError:
             pass
 
         # Delete thumbnail
         try:
-            os.remove(op.join(file_path,
+            os.remove(op.join(img_path,
                               form.thumbgen_filename(target.path)))
         except OSError:
             pass

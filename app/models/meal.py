@@ -47,7 +47,7 @@ class Food(db.Model):
 			return False
 	
 	def select_Food_random():
-		return Food.query.get(random.randint(1,5)).foodname
+		return Food.query.get(random.randint(1,14)).foodname
 
 
 		
@@ -59,7 +59,7 @@ class Cook(db.Model):
 	cookname = Column(String(64))
 
 	def select_Cook_random():
-		return Cook.query.get(random.randint(1,5)).cookname
+		return Cook.query.get(random.randint(1,25)).cookname
 
 
 

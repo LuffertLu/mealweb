@@ -16,6 +16,36 @@ var nowTime = year+"/"+month+"/"+day+" "+arr[week]+" "+hour+((minute<10)?":0":":
 +second+((hour>12)?".pm":".am");
 document.write(nowTime);
 }
+/*
+* 根据固定宽高的盒子，让图片自由居中显示的方法
+* 盒子长200px，宽145px
+*/
+// $(".imgNeedChange")为通过jq获取到的图片数组,对单个图片进行处理时去掉for循环即可
+function imgDispose() {
+  for(var i = 0; i < $(".imgNeedChange").length; i++) {
+    document.getElementsByClassName('imgNeedChange')[i].onload = function(e) {
+      e.stopPropagation();
+      if(this.width / this.height > (200 / 145)) {
+        $(this).css({
+          "top": "0",
+          "left": -(this.width / this.height * 145 - 200) / 2 + "px",
+          "height": "145px",
+          "width": "auto"
+        });
+      } 
+      else {
+        $(this).css({
+          "left": "0",
+          "top": -(this.height / this.width * 200 - 145) / 2 + "px",
+          "width": "200px",
+          "height": "auto"
+        });
+      }
+    }
+  }
+}
+
+
 (function($) {
   "use strict"; // Start of use strict
 
