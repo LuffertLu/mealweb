@@ -1,8 +1,9 @@
 {% extends "layout_nav.html"%}
-{{ super() }}
+
 {% block nav_title %}今天吃这些吧 - {{user.username}}{% endblock %}
 
 {% block page_content %}
+{{ super() }}
     {% for cuisine in cuisines %}
     <!-- Blog Post -->
     <div class="card mb-4">

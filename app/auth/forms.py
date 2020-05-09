@@ -6,10 +6,9 @@ from wtforms import StringField,SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, Regexp, ValidationError, EqualTo
 from ..models.account import User, Role
 
-
-
-
 #Code start
+
+
 class LoginForm(FlaskForm):
 	"""docstring for loginForm"""
 	email = StringField('Email', validators = [DataRequired(), Length(1, 64), Email()])
@@ -37,3 +36,16 @@ class RegistrationForm(FlaskForm):
 		if User.query.filter_by(username = field.data).first():
 			raise ValidationError('Username already in use.')
 
+
+
+class Forgot_passwordForm(FlaskForm):
+	email = StringField('Email', validators = [DataRequired(), Length(1,64), Email()])
+	submit = SubmitField('忘记密码')
+
+
+
+
+class New_passwordForm(FlaskForm):
+	password = PasswordField('Password', validators = [DataRequired(), EqualTo('password_c', message = 'Passwords must be same!')])
+	password_c = PasswordField('Confirm password', validators = [DataRequired()])
+	submit = SubmitField('确认修改密码')

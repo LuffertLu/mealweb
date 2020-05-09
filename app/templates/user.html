@@ -1,6 +1,7 @@
 {% extends "layout_nav.html"%}
 
 {% block page_content %}
+{{super()}}
 <div class="page-header">
 	<h1>{{user.username}}</h1>
 	{%if user.username or user.location %}

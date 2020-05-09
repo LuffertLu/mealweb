@@ -11,7 +11,7 @@ from app.models.account import User, Role
 from app.models.meal import Food, Cook, Taste, Cuisine
 from app.models.resource import File, Image, Page
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'testing')
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 app.secret_key = os.urandom(24)
 
 #create app manager

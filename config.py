@@ -3,8 +3,11 @@
 #config file
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
+print(os.getenv('FLASK_CONFIG'))
+
 FLASK_CONFIG = 'testing'
 
+print(os.getenv('FLASK_CONFIG'))
 
 class Config:
 	MAIL_SERVER = 'smtp.126.com'

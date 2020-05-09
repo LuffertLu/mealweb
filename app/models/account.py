@@ -106,6 +106,14 @@ class User(UserMixin, db.Model):
 	def __repr__(self):
 		return '<User %r>' % self.username
 
+	def identify_token(token):
+		s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'])
+		try:
+			data = s.loads(token)
+			return data.get('identification')
+		except:
+			return None
+
 	@property
 	def password(self):
 		raise AttributeError('Password is not a readable attribute!')
@@ -117,18 +125,13 @@ class User(UserMixin, db.Model):
 	def verify_password(self, password):
 		return check_password_hash(self.__password_hash, password)
 		
-	def generate_confirmation_token(self, expiration = 3600): # 生成一个令牌，有效期默认一小时
+	def generate_token(self, expiration = 300): # 生成一个令牌，有效期默认五分钟
 		s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'], expiration)  #生成具有过期时间的JSON web签名
-		return s.dumps({'confirm': self.id}) # 为指定的数据生成一个加密签名，然后生成令牌字符串
+		return s.dumps({'identification': self.id}) # 为指定的数据生成一个加密签名，然后生成令牌字符串
 
 	def confirm(self, token):
-		s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'])
-		try:
-			data = s.loads(token) 
-		except:
-			return False
-		if data.get('confirm') != self.id:
-			return False
+		if self.identify_token(token) != self.id:
+				return False
 		self.confirmed = True
 		db.session.add(self)
 		db.session.commit()
