@@ -34,7 +34,7 @@ class Show_Cuisine(object):
         self.materiallist =[]        
         self.steplist = []
 
-    def add_element(self, cuisinename, cuisine_img, cuisine_taste,cuisine_cook):
+    def add_element(self, cuisinename, cuisine_img, cuisine_taste, cuisine_cook):
         self.cuisine_elements.append([cuisinename, cuisine_img, cuisine_taste, cuisine_cook])
 
     def add_material(self, food, quantity):

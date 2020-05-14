@@ -1,11 +1,53 @@
 import redis
+import hashlib
+import json
 import copy
 from functools import wraps
-from exception import ErrorMessage
-from decorators import raise_exception
-from serializer import Serializer
 
 TTL = 604800
+#TTL is one week
+
+class ErrorMessage(Exception):
+    def __init__(self, msg):
+        self.value = msg
+
+    def __str__(self):
+        return repr(self.value)
+
+def singleton(class_):
+    instances = {}
+
+    def getinstance(*args, **kwargs):
+        if class_ not in instances:
+            instances[class_] = class_(*args, **kwargs)
+        return instances[class_]
+    return getinstance
+
+
+def raise_exception(msg_prefix='', *args, **kwargs):
+    def deco(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            try:
+                return f(*args, **kwargs)
+            except Exception as e:
+                msg = msg_prefix + str(e)
+                raise ErrorMessage(msg)
+        return decorated_function
+    return deco
+
+
+class Serializer(object):
+
+    """docstring for Serializer"""
+
+    @staticmethod
+    def dumps(data_obj):
+        return json.dumps(data_obj)
+
+    @staticmethod
+    def loads(data_string):
+        return json.loads(data_string)
 
 
 class Cart(object):
@@ -14,13 +56,13 @@ class Cart(object):
         Main Class for Cart, contains all functionality
     """
 
-    @raise_exception("E-Cart can't be initialized due to Error: ")
+    @raise_exception("Cart can't be initialized due to Error: ")
     def __init__(self, user_id, redis_connection, ttl=TTL):
         """
             Constructor for the class, initializes user_id and checks whether
             the users' cart exists or not.
         """
-        self.__redis_user_hash_token = "E-CART"
+        self.__redis_user_hash_token = "CART"
         self.user_id = user_id
         self.user_redis_key = self.__get_user_redis_key(user_id)
         self.redis_connection = redis_connection
@@ -43,16 +85,25 @@ class Cart(object):
         else:
             raise ErrorMessage("User Cart does not exists")
 
-    def __product_dict(self, unit_cost, quantity, extra_data_dict={}):
+    def __product_dict(self, url, name, extra_data_dict={}):
         """
             Returns the dictionary for a product, with the argument values.
         """
         product_dict = {
-            "unit_cost": unit_cost,
-            "quantity": quantity
+            "url": url,
+            "name": name
         }
         product_dict.update(extra_data_dict)
         return product_dict
+
+    def __product_id(self, url, name):
+        """
+            Return the product id to be used in redis
+        """
+        m = hashlib.md5()
+        m.update(bytes(url+name, encoding="utf8"))
+        product_id = m.hexdigest()
+        return product_id
 
     @raise_exception("Cart exists can't return a value due to Error: ")
     def cart_exists(self, user_id):
@@ -84,14 +135,15 @@ class Cart(object):
         return self.user_redis_key
 
     @raise_exception("Product can't be added to the User cart due to Error: ")
-    def add(self, product_id, unit_cost, quantity=1, **extra_data_dict):
+    def add(self, url, name, **extra_data_dict):
         """
             Returns True if the addition of the product of the given product_id and unit_cost with given quantity 
             is succesful else False.
             Can also add extra details in the form of dictionary.
         """
         product_dict = self.__product_dict(
-            unit_cost, quantity, extra_data_dict)
+            url, name, extra_data_dict)
+        product_id = self.__product_id(url, name)
         self.redis_connection.hset(
             self.user_redis_key, product_id, Serializer.dumps(product_dict))
         self.user_cart_exists = self.cart_exists(self.user_id)
@@ -151,29 +203,12 @@ class Cart(object):
         else:
             raise ErrorMessage("The user cart is Empty")
 
-    @raise_exception("Product dictionaries can't be obatined due to Error: ")
+    @raise_exception("Product dictionaries can't be obtained due to Error: ")
     def get_product_dicts(self):
         """
             Returns the list of all product details
         """
         return [Serializer.loads(product_string) for product_string in self.redis_connection.hvals(self.user_redis_key)]
-
-    def __quantities(self):
-        return map(lambda product_dict: product_dict.get('quantity'), self.get_product_dicts())
-
-    @raise_exception("quantity can't be obtained due to Error: ")
-    def quantity(self):
-        """
-            Returns the total number of units of all products in the cart
-        """
-        return reduce(lambda result, quantity: quantity + result, self.__quantities())
-
-    @raise_exception("total_cost can't be obatined due to Error: ")
-    def total_cost(self):
-        """
-            Returns the net total of all product cost from the cart
-        """
-        return sum(self.__price_list())
 
     @raise_exception("copy can't be made due to Error: ")
     def copy(self, target_user_id):
@@ -185,18 +220,6 @@ class Cart(object):
         target_cart = Cart(target_user_id)
         target_cart.set_ttl()
         return target_cart if is_copied else None
-
-    def __product_price(self, product_dict):
-        """
-            Returns the product of product_quantity and its unit_cost
-        """
-        return product_dict['quantity'] * product_dict['unit_cost']
-
-    def __price_list(self):
-        """
-            Returns the list of product's total_cost
-        """
-        return map(lambda product_dict: self.__product_price(product_dict), self.get_product_dicts())
 
     def __del__(self):
         """

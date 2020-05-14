@@ -16,7 +16,7 @@
           </div>
           <div class="col-lg-6">
             <h2 class="card-title">{{ cuisine.cuisine_elements[0][0] }}</h2>
-            <a href="#" class="btn btn-primary">加入菜单 &rarr;</a>
+            <input onclick="{{ this_meal.add(cuisine.cuisine_url, cuisine.cuisine_elements[0][0]) }}" type="button" class="btn btn-primary" value="加入菜单">&rarr;</input>
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
@@ -100,10 +100,10 @@
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('services.bom') }}">就是他了！</a>
+        <a class="page-link" href="{{ url_for('services.bom') }}">选好了！</a>
       </li>
       <li class="page-item">
-        <a class="page-link" href="{{ url_for('services.suggestion', rule = 'quick') }}">不满意，换一批 &rarr;</a>
+        <a class="page-link" href="{{ url_for('services.suggestion', rule = 'random') }}">不满意，换一批 &rarr;</a>
       </li>
     </ul>
 

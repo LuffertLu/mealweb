@@ -3,8 +3,8 @@
 from . import services
 from .. import main
 from ..main.requester import requester
+from ..main.redis_connection import Redis
 from .cuisine_spider import get_Cuisine, Show_Cuisine
-#from flask_bootstrap import Bootstrap
 from flask import render_template, redirect,url_for, flash, request
 from .forms import IntentionForm, SuggestionForm
 from ..models.meal import Food, Cuisine, Cook, Taste
@@ -13,10 +13,13 @@ from .. import db
 from .. import bootstrap
 from flask_login import login_required, current_user, login_user, logout_user
 import redis
-
+#from ..extd.ecart import Cart
+from .kitchen import Cart, Serializer
+import hashlib
 
 
 redis_0 = redis.StrictRedis(host="localhost", port=6379, db=0)  # host和port请根据自己的实际情况写,db默认有15个
+redis_1 = redis.StrictRedis(host="localhost", port=6379, db=1)  # host和port请根据自己的实际情况写,db默认有15个
 
 
 @services.before_app_request
@@ -37,13 +40,14 @@ def intention():
 
 
 
-@services.route('/suggestion/<rule>', methods = ['GET', 'POST'])
+@services.route('/suggestion/<rule>', methods=['GET', 'POST'])
 @login_required
 def suggestion(rule):
     show_cuisine = Show_Cuisine
     show_cuisine_list = []
     rules = rule.split()
-    outputtext = ''
+    outputtext = str(current_user.id)
+    this_meal = Cart(current_user.id, redis_1, 14400) #4 hours
     if rule == 'random': #全随机选
         i = 0
         while i < 5:
@@ -79,13 +83,15 @@ def suggestion(rule):
             else:
                 continue
             i = i+1
-    return render_template('services/suggestion.html', cuisines = show_cuisine_list, food = outputtext)
-   
-@services.route('/foodlist/', methods = ['GET', 'POST'])
+    return render_template('services/suggestion.html', cuisines=show_cuisine_list, food=outputtext, this_meal=this_meal)
+
+
+
+@services.route('/foodlist/', methods=['GET', 'POST'])
 @login_required
 def foodlist():
     form = IntentionForm()
-    rule = 'foodlist'# 创建一个规则字符串对象    
+    rule = 'foodlist'  # 创建一个规则字符串对象
     # GET请求时，视图函数直接渲染模板显示表单    
     # POST请求时，拓展的下面这个函数会验证表单数据
     if form.validate_on_submit():
@@ -131,6 +137,7 @@ def season():
 
 @services.route('/bom/', methods = ['GET', 'POST'])
 @login_required
-def bom():   
+def bom():
+    this_meal=Cart(current_user.id, redis_0, 14400) #4 hours
 
-    return render_template('services/bom.html')
+    return render_template('services/bom.html', this_meal = this_meal)
